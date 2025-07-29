@@ -12,24 +12,24 @@ BarStrad-UI is designed to be highly configurable to meet the needs of different
 
 Controls runtime behavior, API endpoints, and external service integration:
 
-- **[Environment Files](./environment-variables)** - Discord webhooks, API endpoints, and runtime settings
-- **[Build Configuration](./build-config)** - Angular build settings, optimization, and deployment
+- **Environment Variables** - Configure Discord webhooks, API endpoints, and runtime settings in your environment files
+- **Build Configuration** - Angular build settings, optimization, and deployment options
 
 ### Menu Configuration
 
 Defines the menu structure, items, and display formatting:
 
 - **[Menu Setup](./menu-setup)** - Menu structure, categories, and items in JSON format
-- **[Multilingual Support](./multilingual)** - Translation files and internationalization
-- **[Theme Customization](./theme-customization)** - Colors, styling, and Angular Material themes
+- **Multilingual Support** - Translation files and internationalization setup
+- **Theme Customization** - Colors, styling, and Angular Material themes
 
 ### Application Configuration
 
 Controls Angular application behavior, features, and user experience:
 
-- **[PWA Configuration](./pwa-config)** - Progressive Web App settings and service worker
-- **[Routing Configuration](./routing)** - Angular routing and navigation setup
-- **[Service Configuration](./services)** - Angular services and dependency injection
+- **PWA Configuration** - Progressive Web App settings and service worker
+- **Routing Configuration** - Angular routing and navigation setup
+- **Service Configuration** - Angular services and dependency injection
 - **[Deployment Guide](../ci-cd/deployment-guide)** - Production deployment procedures
 
 ## Quick Configuration Checklist
@@ -228,4 +228,4 @@ docker-compose config
 
 ---
 
-**Ready to configure your bot?** Start with [Environment Variables](./environment-variables) or jump to [Menu Setup](./menu-setup).
+**Ready to configure your application?** Start with [Menu Setup](./menu-setup) to configure your menu items.

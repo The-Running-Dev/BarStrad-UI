@@ -10,9 +10,9 @@
 # - Building production-ready Angular application with optimizations
 # - Creating Docker images with nginx serving Angular artifacts
 # - Publishing images to GitHub Container Registry (ghcr.io)
-# - Deploying Angular application to GitHub Pages for public access
 # - Creating versioned GitHub releases with automated release notes
 # - Sending deployment notifications via configured webhooks
+# - Triggering documentation builds when documentation changes are detected
 #
 # ====================================================================
 # TRIGGERS
@@ -41,10 +41,9 @@
 # 3. Angular production build with optimization and minification
 # 4. Docker image creation with nginx serving Angular artifacts
 # 5. Image publishing to GitHub Container Registry
-# 6. Angular artifacts upload for GitHub Pages deployment
-# 7. GitHub Pages deployment for public web access
-# 8. GitHub release creation with auto-generated release notes
-# 9. Notification delivery via configured webhooks
+# 6. GitHub release creation with auto-generated release notes
+# 7. Notification delivery via configured webhooks
+# 8. Documentation build trigger when documentation files change
 #
 # Project-Specific Details:
 # - Angular 19.1.0 application with TypeScript
@@ -60,8 +59,6 @@
 # Required Permissions:
 # - packages:write : Publish Docker images to GitHub Container Registry
 # - contents:write : Create GitHub releases and tags
-# - pages:write    : Deploy to GitHub Pages (Deploy job)
-# - id-token:write : Verify deployment authenticity (Deploy job)
 #
 # Required Secrets:
 # - REGISTRY_TOKEN            : GitHub token with package write permissions
@@ -95,16 +92,15 @@
 # This workflow produces:
 # - Docker Image: ghcr.io/the-running-dev/barstrad-ui:version
 # - Registry Tags: 'latest' and semantic version tags
-# - GitHub Pages Deployment: Live web application at GitHub Pages URL
 # - GitHub Release: Tagged release with automated release notes
 # - Notifications: Webhook notifications for deployment status
+# - Documentation Build Trigger: Triggers documentation rebuild when docs change
 #
 # Angular Build Artifacts:
 # - Optimized JavaScript bundles with tree shaking
 # - Minified CSS with Angular Material theming
 # - Static assets (images, fonts, i18n files)
 # - nginx configuration for Angular routing support (Docker)
-# - GitHub Pages compatible static files (Pages deployment)
 # - Production-ready Docker image (<50MB typical size)
 #
 # ====================================================================
@@ -191,18 +187,7 @@ jobs:
           # Discord webhook URL for deployment notifications
           # Used for: Sending deployment status to Discord channels
           DiscordWebhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
-
-      # ================================================================
-      # STEP 3: PREPARE GITHUB PAGES ARTIFACT
-      # ================================================================
-      - name: Upload Artifact
-        # Upload Angular build artifacts for GitHub Pages deployment
-        # This prepares the artifacts/browser directory for Pages deployment
-        # Pages deployment requires specific artifact format and structure
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: artifacts/browser
-  
+ 
       # Check if documentation files were modified in this commit
       - name: Check for Documentation Changes
         id: docs-changed
@@ -223,34 +208,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           event-type: Update-Documentation
 
-  # ====================================================================
-  # GITHUB PAGES DEPLOYMENT JOB
-  # ====================================================================
-  Deploy:
-    name: Deploy to GitHub Pages
-    needs: Build
-
-    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
-    permissions:
-      pages: write # to deploy to Pages
-      id-token: write # to verify the deployment originates from an appropriate source
-
-    # Deploy to the github-pages environment
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    runs-on: ubuntu-latest
-    steps:
-      # ================================================================
-      # GITHUB PAGES DEPLOYMENT
-      # ================================================================
-      - name: Deploy to GitHub Pages
-        id: deployment
-        # Deploy the uploaded Angular artifacts to GitHub Pages
-        # This makes the Angular application publicly accessible
-        # URL will be available at: https://<owner>.github.io/<repo>/
-        uses: actions/deploy-pages@v4
 # ====================================================================
 # TROUBLESHOOTING GUIDE
 # ====================================================================
@@ -293,26 +250,23 @@ jobs:
 #    - Review webhook payload format requirements
 #    - Test webhook endpoints manually if needed
 #
-# 7. GitHub Pages Deployment Failures:
-#    - Ensure GitHub Pages is enabled in repository settings
-#    - Verify pages:write and id-token:write permissions are granted
-#    - Check that artifacts/browser directory contains valid HTML/JS/CSS
-#    - Ensure Angular build output is compatible with static hosting
-#    - Review GitHub Pages source configuration (GitHub Actions)
-#    - Check for Angular routing issues with static hosting
-#    - Verify artifact upload step completed successfully before deployment
+# 7. Documentation Build Trigger Failures:
+#    - Verify git diff command correctly detects documentation changes
+#    - Check repository_dispatch event type matches documentation workflow
+#    - Ensure GITHUB_TOKEN has necessary permissions for repository dispatch
+#    - Review documentation workflow trigger configuration
 #
 # ====================================================================
 # MONITORING & MAINTENANCE
 # ====================================================================
 #
 # Regular Maintenance Tasks:
-# - Update GitHub Actions versions (actions/checkout@v4, actions/upload-pages-artifact@v3, actions/deploy-pages@v4)
+# - Update GitHub Actions versions (actions/checkout@v4, peter-evans/repository-dispatch@v3)
 # - Rotate authentication tokens (REGISTRY_TOKEN)
 # - Monitor build container updates for Angular/Node.js compatibility
 # - Review and update webhook configurations
 # - Monitor GitHub Container Registry storage usage
-# - Verify GitHub Pages deployment settings and custom domain configuration
+# - Verify documentation build trigger configuration
 #
 # Angular-Specific Maintenance:
 # - Monitor Angular CLI and framework updates
@@ -320,16 +274,15 @@ jobs:
 # - Update ESLint configuration for new Angular features
 # - Validate Docker nginx configuration for Angular routing changes
 # - Monitor production bundle sizes and optimization opportunities
-# - Test GitHub Pages deployment with Angular routing and static hosting
+# - Test Docker deployment with Angular routing functionality
 #
 # Monitoring Points:
 # - GitHub Actions workflow run status and timing
 # - GitHub Container Registry image sizes and vulnerability scans
-# - GitHub Pages deployment success rate and accessibility
 # - GitHub Releases creation success rate and version accuracy
 # - Webhook notification delivery success to Discord/external systems
 # - Angular build performance and bundle size trends
-# - Production deployment success and application health (both Docker and Pages)
-# - GitHub Pages URL accessibility and Angular routing functionality
+# - Production deployment success and application health (Docker)
+# - Documentation build trigger accuracy and success rate
 #
 # ====================================================================

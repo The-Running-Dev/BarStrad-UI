@@ -13,10 +13,10 @@ This document provides a comprehensive side-by-side comparison of all three GitH
 | **File** | `.github/workflows/ci.yml` | `.github/workflows/release.yml` | `.github/workflows/docs.yml` |
 | **Purpose** | Validate changes | Deploy to production | Deploy documentation |
 | **Triggers** | PRs, feature branches, manual | Main branch, manual | Manual, API dispatch |
-| **Artifacts** | None (dry-run) | Docker image, GitHub release, GitHub Pages | Static documentation site |
+| **Artifacts** | None (dry-run) | Docker image, GitHub release | Static documentation site |
 | **Duration** | ~2-3 minutes | ~5-10 minutes | ~3-5 minutes |
 | **Resource Usage** | Low | Medium | Low-Medium |
-| **Output Location** | None | GitHub Container Registry + GitHub Pages | GitHub Pages |
+| **Output Location** | None | GitHub Container Registry | GitHub Pages |
 
 ## Detailed Comparison
 
@@ -63,7 +63,7 @@ This document provides a comprehensive side-by-side comparison of all three GitH
 | GitHub Release | ❌ None | ✅ Created with notes | ❌ None |
 | Registry Tags | ❌ None | ✅ Latest + version tags | ❌ None |
 | Artifacts | ❌ None | ✅ Release assets + Pages artifact | ✅ Pages artifact |
-| Static Site | ❌ None | ✅ GitHub Pages deployment | ✅ GitHub Pages deployment |
+| Static Site | ❌ None | ❌ None (Docker only) | ✅ GitHub Pages deployment |
 
 ### Container Environment
 
@@ -82,7 +82,6 @@ All workflows use these common environment variables:
 |----------|-------------|------------------|----------------------|
 | `GitHubRepositoryToken` | ✅ Yes | ✅ Yes | ✅ Yes (implicit) |
 | `BuildNotificationsWebHookUrl` | ✅ Yes | ✅ Yes | ❌ No |
-| `DiscordBotToken` | ✅ Yes | ✅ Yes | ❌ No |
 | `DiscordWebhookUrl` | ✅ Yes | ✅ Yes | ❌ No |
 
 ### Path Exclusions
@@ -174,7 +173,7 @@ External API Call → Documentation Workflow → GitHub Pages
 - **CPU**: Low-Medium (static site generation)
 - **Memory**: Low (documentation build)
 - **Storage**: Low (static files)
-- **Network**: Low-Medium (GitHub Pages upload)
+- **Network**: Low (Docker registry push)
 - **Duration**: ~3-5 minutes
 
 ## Success Criteria
@@ -193,7 +192,6 @@ External API Call → Documentation Workflow → GitHub Pages
 - ✅ Docker image publishes successfully
 - ✅ GitHub release created
 - ✅ Version tag applied correctly
-- ✅ GitHub Pages deployment successful  
 - ✅ Notifications sent
 - ✅ Registry tags updated
 - ✅ Documentation workflow triggered (if needed)
@@ -254,7 +252,7 @@ All workflows can be monitored through:
 
 - **GitHub Releases** - Release workflow only
 - **Container Registry** - Release workflow image tracking
-- **GitHub Pages** - Documentation workflow site status
+- **Container Registry** - Release workflow image status
 - **Environment History** - Deployment environment tracking
 
 ## Security Considerations
@@ -302,7 +300,6 @@ For detailed information about each workflow:
 - **[Release Workflow Details](./release-workflow)** - Production deployment process
 - **[Documentation Workflow Details](./docs-workflow)** - GitHub Pages deployment process
 - **[CI/CD Overview](./overview)** - High-level pipeline architecture
-- **[Troubleshooting Guide](../troubleshooting)** - Common issues and solutions
 
 ---
 
@@ -311,4 +308,3 @@ For detailed information about each workflow:
 - **Need validation?** → [CI Workflow](./ci-workflow)
 - **Ready to deploy?** → [Release Workflow](./release-workflow)  
 - **Update docs?** → [Documentation Workflow](./docs-workflow)
-- **Having issues?** → [Troubleshooting](../troubleshooting)

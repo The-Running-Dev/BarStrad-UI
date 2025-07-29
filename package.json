@@ -8,6 +8,7 @@
     "build": "cross-env NODE_ENV=development ng build",
     "prebuild:prod": "cross-env NODE_ENV=production",
     "build:prod": "cross-env NODE_ENV=production ng build --configuration production",
+    "build:docs": "cd documentation && pnpm install && pnpm run build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:ci": "ng test --watch=false --browsers=ChromeHeadless",

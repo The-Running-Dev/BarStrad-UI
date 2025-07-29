@@ -52,7 +52,7 @@ BarStrad-UI is a modern Angular 19 application designed for restaurants and bars
 - **PWA Capabilities**: Progressive Web App features for mobile installation
 - **Docker Support**: Containerized deployment with nginx serving
 - **CI/CD Pipeline**: Automated testing, building, and deployment via GitHub Actions
-- **GitHub Pages**: Automatic deployment to GitHub Pages for public access
+- **Container Registry**: Automatic publishing to GitHub Container Registry for easy deployment
 
 ## 🚀 Quick Start
 
@@ -65,11 +65,10 @@ For developers looking to contribute, see our [Development Guide](./development/
 This documentation is organized into several sections:
 
 - **[Getting Started](./getting-started)** - Quick setup and installation
-- **[Configuration](./configuration)** - Environment and menu configuration
+- **[Configuration](./configuration/overview)** - Environment and menu configuration
 - **[Development](./development/setup)** - Development environment setup
 - **[CI/CD](./ci-cd/overview)** - Continuous integration and deployment
-- **[Deployment](./deployment)** - Production deployment guides
-- **[Troubleshooting](./troubleshooting)** - Common issues and solutions
+- **[Deployment](./ci-cd/deployment-guide)** - Production deployment guides
 
 ## 🎯 Use Cases
 
@@ -83,9 +82,19 @@ BarStrad-UI is perfect for:
 
 ## 🌐 Live Demo
 
-Experience BarStrad-UI in action:
-- **GitHub Pages**: [https://the-running-dev.github.io/BarStrad-UI/](https://the-running-dev.github.io/BarStrad-UI/)
-- **Features**: Try language switching, theme toggling, and menu browsing
+Experience BarStrad-UI in action at **[https://barstrad.com](https://barstrad.com)**
+
+Try out all the features including language switching, theme toggling, menu browsing, and responsive design across different devices.
+
+## 🐳 Docker Deployment
+
+Deploy BarStrad-UI using Docker:
+
+```bash
+docker run -p 80:80 ghcr.io/the-running-dev/barstrad-ui:latest
+```
+
+Visit [http://localhost](http://localhost) to experience the application locally.
 
 ## 🤝 Community & Support
 

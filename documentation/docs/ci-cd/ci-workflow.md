@@ -46,9 +46,8 @@ Permissions: packages: write
 
 | Variable | Purpose |
 |----------|---------|
-| `GitHubRepositoryToken` | GitHub operations authentication |
-| `BuildNotificationsWebHookUrl` | Build notification webhook |
-| `DiscordBotToken` | Discord bot token |
+| `RegistryToken` | GitHub operations authentication |
+| `NotificationsWebHookUrl` | Build notification webhook |
 | `DiscordWebhookUrl` | Discord notification webhook |
 
 ## Key Features

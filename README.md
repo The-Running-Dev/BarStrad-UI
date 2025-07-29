@@ -16,6 +16,17 @@ BarStrad is an interactive bar menu application built with Angular 19 that allow
 - **Responsive Design**: Optimized for both desktop and mobile devices
 - **PWA Ready**: Progressive Web App capabilities for mobile installation
 
+## 🌐 Live Demo
+
+Experience BarStrad-UI in action at **[https://barstrad.com](https://barstrad.com)**
+
+Try out all the features including:
+
+- Language switching between English and Bulgarian
+- Light/dark theme toggling
+- Interactive menu browsing and search
+- Responsive design across different devices
+
 ## 🛠 Tech Stack
 
 - **Framework**: Angular 19.1.0

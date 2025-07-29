@@ -247,7 +247,6 @@ For faster builds, consider:
 - **[CI/CD Overview](./overview)** - Complete automation pipeline
 - **[Deployment Guide](./deployment-guide)** - Production deployment
 - **[Development Setup](../development/setup)** - Local development environment
-- **[Troubleshooting](../troubleshooting)** - Common issues and solutions
 
 ## Script Maintenance
 
