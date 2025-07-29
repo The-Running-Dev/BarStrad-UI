@@ -1,0 +1,54 @@
+/* src/app/app.component.css */
+
+li {
+    position: relative;
+}
+
+.price {
+    transition: opacity 0.3s ease-in-out;
+    display: inline-block;
+}
+
+.order-button {
+    position: absolute;
+    top: 5px;
+    left: 300px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5em 1em;
+    margin-left: 1em;
+    transform: translateY(-10px);
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: auto; /* Ensure the button width adjusts to its content */
+}
+
+.order-button i {
+    margin-right: 0.5em;
+}
+
+.order-button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.order-button:disabled {
+    background-color: green;
+    cursor: not-allowed;
+}
+
+li:hover .order-button {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+li:hover .price {
+    opacity: 0.8;
+}

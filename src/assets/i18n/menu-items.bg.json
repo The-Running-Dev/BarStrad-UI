@@ -1,0 +1,161 @@
+[
+  {
+    "category": "Шотове",
+    "icon": "fa-glass-whiskey",
+    "items": [
+      { "name": "Текила Jose Cuervo Silver 30мл", "price": "4.00 лв.", "icon": "fa-glass-whiskey" },
+      { "name": "Текила Jose Cuervo Gold 30мл", "price": "4.50 лв.", "icon": "fa-glass-whiskey" },
+      { "name": "Aftershock 30мл", "price": "4.00 лв.", "icon": "fa-glass-whiskey" },
+      { "name": "Jagermeister 30мл", "price": "4.00 лв.", "icon": "fa-glass-whiskey" }
+    ]
+  },
+  {
+    "category": "Джин",
+    "icon": "fa-wine-glass",
+    "items": [
+      { "name": "Tanqueray 50мл", "price": "6.00 лв.", "icon": "fa-wine-glass" },
+      { "name": "Bombay Sapphire 50мл", "price": "6.50 лв.", "icon": "fa-wine-glass" },
+      { "name": "Hendrick's 50мл", "price": "8.00 лв.", "icon": "fa-wine-glass" },
+      { "name": "Beefeater 50мл", "price": "5.50 лв.", "icon": "fa-wine-glass" },
+      { "name": "Gordon's 50мл", "price": "5.00 лв.", "icon": "fa-wine-glass" }
+    ]
+  },
+  {
+    "category": "Уиски",
+    "icon": "fa-glass-whiskey",
+    "items": [
+      { "name": "Jameson Classic 50мл", "price": "5.00 лв.", "icon": "fa-glass-whiskey" },
+      { "name": "Jameson Black Barrel 50мл", "price": "8.00 лв.", "icon": "fa-glass-whiskey" },
+      { "name": "Bushmills 50мл", "price": "5.00 лв.", "icon": "fa-glass-whiskey" },
+      { "name": "Johnnie Walker Red Label 50мл", "price": "5.00 лв.", "icon": "fa-glass-whiskey" },
+      { "name": "Johnnie Walker Black Label 50мл", "price": "10.00 лв.", "icon": "fa-glass-whiskey" },
+      { "name": "Johnnie Walker Gold Label 50мл", "price": "15.00 лв.", "icon": "fa-glass-whiskey" },
+      { "name": "Jack Daniels 50мл", "price": "7.00 лв.", "icon": "fa-glass-whiskey" },
+      { "name": "Jack Daniels Honey 50мл", "price": "7.50 лв.", "icon": "fa-glass-whiskey" },
+      { "name": "Dimple 50мл", "price": "10.00 лв.", "icon": "fa-glass-whiskey" },
+      { "name": "Maker's Mark 50мл", "price": "11.00 лв.", "icon": "fa-glass-whiskey" }
+    ]
+  },
+  {
+    "category": "Ром",
+    "icon": "fa-glass-whiskey",
+    "items": [
+      { "name": "Captain Morgan 50мл", "price": "6.00 лв.", "icon": "fa-glass-whiskey" },
+      { "name": "Malibu 50мл", "price": "4.50 лв.", "icon": "fa-glass-whiskey" },
+      { "name": "Courvoisier VS 50мл", "price": "10.00 лв.", "icon": "fa-glass-whiskey" }
+    ]
+  },
+  {
+    "category": "Коняк",
+    "icon": "fa-glass-cocktail",
+    "items": [
+      { "name": "Metaxa 50мл", "price": "5.00 лв.", "icon": "fa-glass-cocktail" },
+      { "name": "Hennessy 50мл", "price": "13.00 лв.", "icon": "fa-glass-cocktail" }
+    ]
+  },
+  {
+    "category": "Водка",
+    "icon": "fa-glass-martini",
+    "items": [
+      { "name": "Finlandia 50мл", "price": "5.00 лв.", "icon": "fa-glass-martini" },
+      { "name": "Gray Goose 50мл", "price": "11.00 лв.", "icon": "fa-glass-martini" },
+      { "name": "Beluga 50мл", "price": "11.00 лв.", "icon": "fa-glass-martini" },
+      { "name": "Stolichna 50мл", "price": "5.00 лв.", "icon": "fa-glass-martini" }
+    ]
+  },
+  {
+    "category": "Анасонови напитки",
+    "icon": "fa-glass-martini-alt",
+    "items": [
+      { "name": "Ouzo PLOMARI 50мл", "price": "4.00 лв.", "icon": "fa-glass-martini-alt" },
+      { "name": "Ouzo 12 50мл", "price": "4.00 лв.", "icon": "fa-glass-martini-alt" },
+      { "name": "YENI RAKI 50мл", "price": "5.00 лв.", "icon": "fa-glass-martini-alt" }
+    ]
+  },
+  {
+    "category": "Слабоалкохолни напитки",
+    "icon": "fa-glass-cheers",
+    "items": [
+      { "name": "Baileys Original 50мл", "price": "6.00 лв.", "icon": "fa-glass-cheers" },
+      { "name": "Baileys Strawberries and Cream 50мл", "price": "7.00 лв.", "icon": "fa-glass-cheers" },
+      { "name": "Baileys Chocolate Luxe 50мл", "price": "8.50 лв.", "icon": "fa-glass-cheers" },
+      { "name": "Campari 50мл", "price": "5.00 лв.", "icon": "fa-glass-cheers" },
+      { "name": "Martini Dry 50мл", "price": "4.00 лв.", "icon": "fa-glass-cheers" }
+    ]
+  },
+  {
+    "category": "Наливна бира",
+    "icon": "fa-beer",
+    "items": [
+      { "name": "Stella Artois 330мл", "price": "4.50 лв.", "icon": "fa-beer" },
+      { "name": "Stella Artois 500мл", "price": "6.50 лв.", "icon": "fa-beer" }
+    ]
+  },
+  {
+    "category": "Бира в бутилка",
+    "icon": "fa-beer",
+    "items": [
+      { "name": "Kamenitza 500мл", "price": "4.00 лв.", "icon": "fa-beer" },
+      { "name": "Burgasko 500мл", "price": "4.50 лв.", "icon": "fa-beer" },
+      { "name": "Staropramen 500мл", "price": "4.50 лв.", "icon": "fa-beer" },
+      { "name": "Beck's 500мл", "price": "5.00 лв.", "icon": "fa-beer" },
+      { "name": "Madre 500мл", "price": "5.00 лв.", "icon": "fa-beer" },
+      { "name": "Leffe Blond 330мл", "price": "7.00 лв.", "icon": "fa-beer" },
+      { "name": "Corona 330мл", "price": "6.00 лв.", "icon": "fa-beer" },
+      { "name": "Stella Artois 0% 330мл", "price": "4.00 лв.", "icon": "fa-beer" }
+    ]
+  },
+  {
+    "category": "Шиша",
+    "icon": "fa-smoking",
+    "items": [
+      { "name": "Element", "price": "27.99 лв.", "description": "Тютюнът Element се характеризира с тяхната креативност в линиите им тютюн. С разделението на елементите въздух, земя и вода, имате възможност да избирате между Вирджиния тютюн и Dark Blend. С широк избор от вкусове", "icon": "fa-smoking" },
+      { "name": "Adalya", "price": "25.00 лв.", "description": "Adalya въплъщава същността на премиум плодово удоволствие във вашето пушене. С широк спектър от внимателно изработени плодови смеси, Adalya ви предлага луксозен обрат, който отговаря на тези, които ценят по-фините аспекти на шиша. Изследвайте разнообразен избор от ръчно подбрани плодови комбинации, които ви отвеждат на пътешествие на изискан вкус. идеален за тези, които търсят върха на изтънченото удоволствие.", "icon": "fa-smoking" },
+      { "name": "O'S", "price": "25.00 лв.", "description": "Популярни вкусове като African Queen, African King и Bonnie in Clyde са само някои от акцентите от нашата гама.", "icon": "fa-smoking" }
+    ]
+  },
+  {
+    "category": "Безалкохолни напитки",
+    "icon": "fa-glass-soda",
+    "items": [
+      { "name": "Кока-Кола 250мл", "price": "3.00 лв.", "icon": "fa-glass-soda" },
+      { "name": "Фанта 250мл", "price": "3.00 лв.", "icon": "fa-glass-soda" },
+      { "name": "Спрайт 250мл", "price": "3.00 лв.", "icon": "fa-glass-soda" },
+      { "name": "Тоник 250мл", "price": "3.00 лв.", "icon": "fa-glass-soda" },
+      { "name": "FUSE Tea 250мл", "price": "3.50 лв.", "icon": "fa-glass-soda" },
+      { "name": "Cappy 250мл", "price": "3.00 лв.", "icon": "fa-glass-soda" },
+      { "name": "Газирана вода 250мл", "price": "3.00 лв.", "icon": "fa-glass-soda" },
+      { "name": "Минерална вода 250мл", "price": "2.00 лв.", "icon": "fa-glass-soda" },
+      { "name": "Минерална вода 1000мл", "price": "4.50 лв.", "icon": "fa-glass-soda" }
+    ]
+  },
+  {
+    "category": "Енергийни напитки",
+    "icon": "fa-bolt",
+    "items": [
+      { "name": "Red Bull 250мл", "price": "8.00 лв.", "icon": "fa-bolt" },
+      { "name": "Monster Classic 500мл", "price": "6.00 лв.", "icon": "fa-bolt" }
+    ]
+  },
+  {
+    "category": "Топли напитки",
+    "icon": "fa-coffee",
+    "items": [
+      { "name": "Еспресо", "price": "", "icon": "fa-coffee" },
+      { "name": "Капучино", "price": "", "icon": "fa-coffee" },
+      { "name": "Фрапе", "price": "", "icon": "fa-coffee" },
+      { "name": "Чай", "price": "2.00 лв.", "icon": "fa-mug-hot" }
+    ]
+  },
+  {
+    "category": "Ядки и чипс",
+    "icon": "fa-seedling",
+    "items": [
+      { "name": "Бадеми", "price": "6.00 лв.", "icon": "fa-seedling" },
+      { "name": "Кашу", "price": "6.00 лв.", "icon": "fa-seedling" },
+      { "name": "Бирени ядки", "price": "4.00 лв.", "icon": "fa-seedling" },
+      { "name": "Фъстъци", "price": "3.00 лв.", "icon": "fa-seedling" },
+      { "name": "Чипс", "price": "4.00 лв.", "icon": "fa-seedling" }
+    ]
+  }
+]
