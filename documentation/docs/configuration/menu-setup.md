@@ -354,4 +354,4 @@ The bot auto-numbers items sequentially. If numbering seems off:
 
 ---
 
-**Need help with environment setup?** See [Environment Variables](./environment-variables) or check out [Discord Setup](./discord-setup).
+**Need help with setup?** See the [Configuration Overview](./overview) for more configuration options.

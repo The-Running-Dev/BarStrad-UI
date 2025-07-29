@@ -298,7 +298,6 @@ The CI/CD workflows require the following secrets to be configured in GitHub:
 - **[Workflow Comparison](./workflow-comparison)** - Side-by-side comparison of CI vs Release workflows
 - **[Local Testing with Act](./local-testing-with-act)** - Test GitHub Actions workflows locally
 - **[Deployment Guide](./deployment-guide)** - Production deployment procedures
-- **[Troubleshooting](../troubleshooting)** - Common issues and solutions
 
 ---
 

@@ -243,7 +243,8 @@ environment:
 
 **URL Structure:**
 
-- **Production:** `https://the-running-dev.github.io/BarStrad-UI/`
+- **Documentation:** `https://the-running-dev.github.io/BarStrad-UI/`
+- **Main Application:** `https://barstrad.com`
 - **Custom Domain:** Configurable via repository settings
 
 **Site Features:**
@@ -430,7 +431,6 @@ For detailed local testing instructions and safe testing practices, see [Local T
 - **[Release Workflow](./release-workflow)** - Production deployment process
 - **[Local Testing with Act](./local-testing-with-act)** - Local workflow testing
 - **[Development Setup](../development/setup)** - Local development environment
-- **[Troubleshooting](../troubleshooting)** - General troubleshooting guide
 
 ---
 

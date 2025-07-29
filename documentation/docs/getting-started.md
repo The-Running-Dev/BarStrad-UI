@@ -6,6 +6,10 @@ sidebar_position: 2
 
 This guide will help you get BarStrad-UI up and running in minutes.
 
+## 🌐 Try it Live
+
+Before setting up locally, you can experience BarStrad-UI live at **[https://barstrad.com](https://barstrad.com)** to see all features in action.
+
 ## Prerequisites
 
 Before you begin, ensure you have the following installed:
@@ -42,6 +46,8 @@ For development and customization:
    ```bash
    git clone https://github.com/The-Running-Dev/BarStrad-UI.git
    cd BarStrad-UI
+   ```
+
 2. **Install dependencies**
 
    ```bash
@@ -181,39 +187,39 @@ After setup, verify your application:
 
 ## Next Steps
 
-- **Customize the menu**: Edit the menu data files to match your establishment
-- **Configure branding**: Update colors, logos, and styling to match your brand
-- **Set up production deployment**: See our [Deployment Guide](./deployment) for production setup
-- **Explore advanced features**: Check out theme customization and PWA features
-   ```
+Now that your application is running, here are the recommended next steps:
 
-## Next Steps
+### 🎨 **Customization**
 
-Now that your bot is running:
+- **[Customize the menu](./configuration/menu-setup)** - Add your own items and categories to match your establishment
+- **Configure branding** - Update colors, logos, and styling to match your brand
+- **Explore advanced features** - Check out theme customization and PWA features
 
-- **[Customize the menu](./configuration/menu-setup)** - Add your own items and categories
-- **[Configure notifications](./configuration/webhooks)** - Set up order notifications
-- **[Learn bot commands](./bot-commands)** - Explore all available commands
-- **[Set up development environment](./development/setup)** - If you want to contribute
+### 🚀 **Deployment & Development**
+
+- **[Set up production deployment](./ci-cd/deployment-guide)** - Deploy to production environment
+- **[Configure the application](./configuration/overview)** - Advanced application configuration options
+- **[Set up development environment](./development/setup)** - If you want to contribute or customize further
 
 ## Common Setup Issues
 
-### Bot Not Responding
+### Application Not Loading
 
-- **Check configuration**: Ensure your environment variables are correct
-- **Check permissions**: Verify the bot has necessary permissions in the server
-- **Check status**: Look at the console/logs for error messages
+- **Check configuration**: Ensure your environment variables are set correctly
+- **Check port conflicts**: Verify port 4200 (development) or 80 (Docker) is available
+- **Check console logs**: Look at the browser console for error messages
 
 ### Orders Not Working
 
-- **Check webhook URL**: Ensure the Discord webhook URL is correct
+- **Check webhook URL**: Ensure the Discord webhook URL is correct and valid  
 - **Check channel permissions**: Verify the webhook has permissions to send messages
-- **Check item numbers**: Ensure you're using valid item numbers from the menu
+- **Check network connectivity**: Ensure your application can reach Discord's servers
 
 ### Build Issues
 
-- **Node.js version**: Ensure you're using Node.js v18 or higher
-- **Dependencies**: Try deleting `node_modules` and running `npm install` again
+- **Node.js version**: Ensure you're using Node.js v20 or higher
+- **Dependencies**: Try deleting `node_modules` and running `pnpm install` again
 - **TypeScript errors**: Check for syntax errors in any modified files
+- **Memory issues**: Increase Node.js memory limit if builds fail: `NODE_OPTIONS="--max-old-space-size=4096"`
 
-Need more help? Check out our [Troubleshooting Guide](./troubleshooting) or [open an issue](https://github.com/The-Running-Dev/BarStrad-UI/issues).
+Need more help? [Open an Issue](https://github.com/The-Running-Dev/BarStrad-UI/issues).

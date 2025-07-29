@@ -1,5 +1,11 @@
 # BarStrad-UI
 
+[![CI](https://github.com/The-Running-Dev/BarStrad-UI/actions/workflows/ci.yml/badge.svg)](https://github.com/The-Running-Dev/BarStrad-UI/actions/workflows/ci.yml)
+[![Release](https://github.com/The-Running-Dev/BarStrad-UI/actions/workflows/release.yml/badge.svg)](https://github.com/The-Running-Dev/BarStrad-UI/actions/workflows/release.yml)
+[![Docs](https://github.com/The-Running-Dev/BarStrad-UI/actions/workflows/docs.yml/badge.svg)](https://github.com/The-Running-Dev/BarStrad-UI/actions/workflows/docs.yml)
+[![Docker](https://img.shields.io/badge/docker-ghcr.io-blue?logo=docker&logoColor=white)](https://github.com/The-Running-Dev/BarStrad-UI/pkgs/container/barstrad-ui)
+[![Live Demo](https://img.shields.io/badge/demo-barstrad.com-green?logo=angular&logoColor=white)](https://barstrad.com)
+
 A modern Angular-based bar menu application with multi-language support, theme customization, and Discord notifications.
 
 ## 🚀 Overview
@@ -15,6 +21,17 @@ BarStrad is an interactive bar menu application built with Angular 19 that allow
 - **Discord Integration**: Real-time notifications sent to Discord webhooks
 - **Responsive Design**: Optimized for both desktop and mobile devices
 - **PWA Ready**: Progressive Web App capabilities for mobile installation
+
+## 🌐 Live Demo
+
+Experience BarStrad-UI in action at **[https://barstrad.com](https://barstrad.com)**
+
+Try out all the features including:
+
+- Language switching between English and Bulgarian
+- Light/dark theme toggling
+- Interactive menu browsing and search
+- Responsive design across different devices
 
 ## 🛠 Tech Stack
 

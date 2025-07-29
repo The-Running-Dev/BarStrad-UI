@@ -1,6 +1,7 @@
 # Build artifacts
-artifacts/
 .docusaurus/
+artifacts/
+build/
 out-tsc/
 tmp/
 Temp/

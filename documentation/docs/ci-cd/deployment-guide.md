@@ -13,7 +13,7 @@ The deployment process involves multiple components working together:
 - **GitHub Actions**: Automated CI/CD workflows
 - **Docker**: Containerized application deployment with nginx
 - **GitHub Container Registry**: Docker image storage
-- **GitHub Pages**: Static site hosting for the Angular application
+- **Container Registry**: Docker image hosting for production deployment
 - **Build Agent**: Custom containerized build environment
 - **Semantic Versioning**: Automated version management
 
@@ -31,8 +31,8 @@ The deployment process involves multiple components working together:
 - **Purpose**: Live Angular application serving users via dual deployment strategy
 - **Access**: Restricted to deployment workflows
 - **Data**: Production menu data and configurations
-- **Deployment**: Automated via GitHub Actions to both Docker Registry and GitHub Pages
-- **Hosting**: Docker containers + GitHub Pages static hosting
+- **Deployment**: Automated via GitHub Actions to Docker Registry
+- **Hosting**: Docker containers with nginx serving
 
 ## Automated Deployment Workflows
 
@@ -89,22 +89,17 @@ The deployment process involves multiple components working together:
    - Push image to GitHub Container Registry
    - Tag with semantic version and 'latest'
 
-4. **GitHub Pages Deployment Path**
-   - Upload Angular build artifacts to GitHub Pages
-   - Deploy static site with Angular routing support
-   - Provide public URL for immediate access
-
-5. **Documentation Integration**
+4. **Documentation Integration**
    - Detect documentation changes in the commit
    - Trigger documentation workflow if needed  
    - Coordinate documentation updates with releases
 
-6. **Post-Deployment**
+5. **Post-Deployment**
    - Send deployment notifications to configured webhooks
    - Update monitoring systems and status dashboards
    - Log deployment events for auditing and tracking
 
-**Success Criteria**: Angular application is accessible via both Docker image and GitHub Pages URL
+**Success Criteria**: Angular application is accessible via Docker image
 
 ### Documentation Workflow
 
@@ -119,9 +114,9 @@ The deployment process involves multiple components working together:
    - Build static documentation site
    - Optimize for production
 
-2. **Deploy to GitHub Pages**
-   - Upload build artifacts
-   - Configure GitHub Pages
+2. **Deploy Documentation** (if docs changed)
+   - Build documentation site
+   - Upload build artifacts to GitHub Pages
    - Update live documentation site
 
 ## Pre-deployment Checklist

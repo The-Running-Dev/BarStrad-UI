@@ -57,7 +57,6 @@ Create a `.env` file in the root directory:
 
 ```env
 # Discord Bot Configuration
-DiscordBotToken=your_development_bot_token_here
 DiscordWebhookUrl=your_development_webhook_url_here
 
 # Environment Settings

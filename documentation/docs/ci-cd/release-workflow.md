@@ -4,7 +4,7 @@ title: Release Workflow
 sidebar_position: 3
 ---
 
-The release workflow builds, publishes Docker images, creates GitHub releases, and deploys to GitHub Pages when code is pushed to the main branch. This is the production deployment pipeline that handles all release activities with dual deployment strategy.
+The release workflow builds, publishes Docker images, creates GitHub releases, and triggers documentation updates when code is pushed to the main branch. This is the production deployment pipeline that handles all release activities with containerized deployment strategy.
 
 ## Workflow Triggers
 
@@ -28,7 +28,7 @@ This optimization saves resources and focuses builds on actual code changes.
 
 ## Job Architecture
 
-The release workflow uses a two-job architecture for comprehensive deployment:
+The release workflow uses a single-job architecture for containerized deployment:
 
 ### Build Job Configuration
 
@@ -38,18 +38,7 @@ Container: ghcr.io/the-running-dev/build-agent:latest
 Permissions:
   packages: write    # Push to GitHub Container Registry
   contents: write    # Create GitHub releases
-```
-
-### Deploy Job Configuration
-
-```yaml
-Runner: ubuntu-latest
-Container: None (uses ubuntu-latest directly)
-Dependencies: Build job must complete successfully
-Permissions:
-  pages: write       # Deploy to GitHub Pages
   id-token: write    # Verify deployment authenticity
-Environment: github-pages
 ```
 
 ### Build Agent Container
@@ -82,32 +71,17 @@ The release workflow follows these sequential steps across two jobs:
 - Handles Docker image creation and registry publishing
 - Creates GitHub release with auto-generated notes
 
-#### 3. **Prepare GitHub Pages Artifact**
-
-- Uploads Angular build artifacts from `artifacts/browser` directory
-- Prepares static files for GitHub Pages deployment
-- Creates deployment-ready artifact package
-
-#### 4. **Documentation Change Detection**
+#### 3. **Documentation Change Detection**
 
 - Checks if documentation files were modified in the commit
 - Sets output flag for documentation workflow triggering
 - Uses git diff to detect changes in `documentation/` directory
 
-#### 5. **Trigger Documentation Build**
+#### 4. **Trigger Documentation Build**
 
-- Conditionally triggers documentation workflow if changes detected
-- Uses repository dispatch API with `Update-Documentation` event type
-- Ensures documentation stays synchronized with releases
-
-### Deploy Job Steps
-
-#### 1. **Deploy to GitHub Pages**
-
-- Deploys uploaded Angular artifacts to GitHub Pages
-- Uses the artifact created by the Build job
-- Provides public URL for the deployed Angular application
-- Configures GitHub Pages environment with deployment tracking
+- Conditionally triggers documentation workflow if docs changed
+- Uses repository_dispatch to trigger separate documentation deployment
+- Provides clean separation between application and documentation updates
 
 ## Environment Variables
 
@@ -115,9 +89,8 @@ The workflow uses these environment variables for configuration:
 
 | Variable | Purpose | Usage |
 |----------|---------|-------|
-| `GitHubRepositoryToken` | GitHub operations & registry access | Authentication for releases and registry |
-| `BuildNotificationsWebHookUrl` | Build notification webhook | Send build status updates |
-| `DiscordBotToken` | Runtime Discord bot configuration | Bot runtime environment |
+| `RegistryToken` | GitHub operations & registry access | Authentication for releases and registry |
+| `NotificationsWebHookUrl` | Build notification webhook | Send build status updates |
 | `DiscordWebhookUrl` | Runtime Discord notification webhook | Application notification system |
 
 ### Secret Management
@@ -148,12 +121,12 @@ All sensitive variables are stored as GitHub Secrets:
 - **Multiple tags** - Version-specific and `latest` tags
 - **Private registry** - Secure image storage
 
-### GitHub Pages Deployment
+### Docker Image Publishing
 
-- **Static Site Hosting** - Deploys Angular application to GitHub Pages
-- **Public URL** - Accessible at repository's GitHub Pages URL
-- **Angular Routing Support** - Configured for single-page application routing
-- **Automatic Updates** - Synchronized with Docker image releases
+- **Container Registry** - Publishes to GitHub Container Registry (ghcr.io)
+- **Multiple Tags** - Creates both 'latest' and semantic version tags
+- **Production Ready** - Optimized Docker images with nginx serving
+- **Automatic Updates** - New images published on every release
 
 ### GitHub Release Creation
 
@@ -179,8 +152,8 @@ The complete release process follows this dual-deployment sequence:
 
 ```text
 Main Branch Push → Version Calculation → Angular Build → 
-Docker Build & Registry Push → GitHub Pages Deployment → 
-GitHub Release → Documentation Detection → Notifications
+Docker Build & Registry Push → GitHub Release → 
+Documentation Detection → Notifications
 ```
 
 ### Detailed Process
@@ -192,12 +165,10 @@ GitHub Release → Documentation Detection → Notifications
 5. **Angular Build** - TypeScript compilation and production optimization
 6. **Docker Image Creation** - Multi-stage container build with nginx
 7. **Registry Publication** - Image pushed to GitHub Container Registry
-8. **Pages Artifact Upload** - Build artifacts prepared for GitHub Pages
-9. **GitHub Pages Deployment** - Static site deployed to Pages environment
-10. **Release Creation** - GitHub release with proper version tag
-11. **Documentation Change Detection** - Checks for documentation updates
-12. **Documentation Workflow Trigger** - Dispatches docs rebuild if needed
-13. **Notification Dispatch** - Build status sent to configured webhooks
+8. **Release Creation** - GitHub release with proper version tag
+9. **Documentation Change Detection** - Checks for documentation updates
+10. **Documentation Workflow Trigger** - Dispatches docs rebuild if needed
+11. **Notification Dispatch** - Build status sent to configured webhooks
 
 ## Workflow Outputs
 
@@ -209,13 +180,6 @@ Each successful release workflow produces multiple deployment artifacts:
 - **Tags**: Both version-specific (e.g., `1.2.3`) and `latest`
 - **Architecture**: Linux AMD64 with nginx serving Angular application
 - **Size**: Optimized for production use with Angular build artifacts
-
-### GitHub Pages Deployment
-
-- **Location**: Repository's configured GitHub Pages URL
-- **Content**: Static Angular application with optimized bundles
-- **Routing**: Configured for Angular single-page application routing
-- **Updates**: Automatically synchronized with each release
 
 ### GitHub Release
 
@@ -327,7 +291,7 @@ For emergency releases or scheduled deployments:
 
 1. **Check Workflow Logs**
 
-   ```
+   ```text
    GitHub Actions → Release Workflow → Latest Run → View Logs
    ```
 
@@ -469,4 +433,4 @@ You can test the release workflow locally using Act:
 
 ---
 
-**Need help with releases?** Check the [troubleshooting guide](../troubleshooting) or [deployment guide](./deployment-guide) for detailed procedures.
+**Need help with releases?** Check the [deployment guide](./deployment-guide) for detailed procedures.
