@@ -1,0 +1,92 @@
+# Documentation Deployment Workflow
+# 
+# This workflow builds and deploys the Docusaurus documentation site to GitHub Pages.
+# It uses a custom build agent container with Node.js and documentation build tools.
+#
+# Triggers:
+# - Manual execution via GitHub Actions UI (workflow_dispatch)
+# - External API calls for documentation updates (repository_dispatch)
+#
+# Security:
+# - Uses minimal required permissions for package access and GitHub Pages deployment
+# - Runs in isolated container environment
+# - Uses official GitHub Actions for secure deployment
+name: Docs
+
+on:
+  # Allow manual triggering from GitHub Actions UI
+  # Useful for testing documentation changes or emergency updates
+  workflow_dispatch:
+  
+  # Allow external systems to trigger documentation updates
+  # Enables integration with external documentation management tools
+  repository_dispatch:
+    types: [Update-Documentation]
+
+# Define minimal permissions required for this workflow
+# Following security best practice of least privilege access
+permissions:
+  packages: write  # Required to pull custom build agent container from registry
+  contents: write  # Required to read repository content and push to Pages branch
+
+jobs:
+  # Build Job: Compiles Docusaurus documentation into static assets
+  # Uses custom build agent with pre-installed Node.js and build tools
+  Build:
+    name: Build Docs
+    runs-on: ubuntu-latest
+    
+    # Use custom build agent container for consistent build environment
+    # This container includes Node.js, npm, and documentation build tools
+    container:
+      image: ghcr.io/the-running-dev/build-agent:latest
+  
+    steps:
+      # Step 1: Checkout the repository code
+      # fetch-depth: 0 ensures complete git history for build processes that may need it
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Step 2: Build the documentation site
+      # Uses custom node-template-build command available in the build agent
+      # -appDir 'documentation' specifies the directory containing the Docusaurus project
+      - name: Build Documentation
+        run: node-template-build -appDir 'documentation'
+
+      # Step 3: Upload build artifacts for GitHub Pages deployment
+      # The built documentation is in documentation/build directory
+      # This step prepares the static files for GitHub Pages deployment
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: documentation/build
+
+  # Deploy Job: Deploys built documentation to GitHub Pages
+  # This job depends on successful completion of the Build job
+  Deploy:
+    name: Deploy to GitHub Pages
+    needs: Build  # Wait for Build job to complete successfully
+
+    # Enhanced permissions specifically for GitHub Pages deployment
+    # These permissions are more restrictive than the workflow-level permissions
+    permissions:
+      pages: write      # Required to deploy content to GitHub Pages
+      id-token: write   # Required to verify deployment authenticity and source
+
+    # Configure deployment environment for GitHub Pages
+    # This provides deployment URL and environment tracking
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Deploy the uploaded artifact to GitHub Pages
+      # This step uses the artifact uploaded by the Build job
+      # The deployment URL will be available as step output
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

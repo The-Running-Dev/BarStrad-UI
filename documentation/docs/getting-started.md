@@ -1,0 +1,219 @@
+---
+id: getting-started
+title: Getting Started
+sidebar_position: 2
+---
+
+This guide will help you get BarStrad-UI up and running in minutes.
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Node.js** (v20 or higher)
+- **pnpm** (v10 or higher) - preferred package manager
+- **Docker** (for containerized deployment)
+- **Git** (for version control)
+
+## Installation Methods
+
+Choose the installation method that best fits your needs:
+
+### 🚀 Quick Start with Docker (Recommended)
+
+The fastest way to get started is using our pre-built Docker image:
+
+1. **Pull and run the container**
+
+   ```bash
+   docker run -p 80:80 ghcr.io/the-running-dev/barstrad-ui:latest
+   ```
+
+2. **Open your browser**
+
+   Navigate to [http://localhost](http://localhost) to see the application.
+
+### 🛠 Development Setup
+
+For development and customization:
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/The-Running-Dev/BarStrad-UI.git
+   cd BarStrad-UI
+2. **Install dependencies**
+
+   ```bash
+   pnpm install
+   ```
+
+3. **Set up environment variables**
+
+   Create environment files for development:
+
+   ```bash
+   # Create environment files
+   cp src/environments/environment.ts.example src/environments/environment.ts
+   cp src/environments/environment.prod.ts.example src/environments/environment.prod.ts
+   ```
+
+   Update the environment files with your Discord webhook URLs:
+
+   ```typescript
+   export const environment = {
+     production: false,
+     discordWebhookUrl: 'your_discord_webhook_url_here'
+   };
+   ```
+
+4. **Start the development server**
+
+   ```bash
+   pnpm start
+   ```
+
+5. **Open your browser**
+
+   Navigate to [http://localhost:4200](http://localhost:4200) to see the application.
+
+### 🏗️ Build for Production
+
+To build the application for production deployment:
+
+1. **Build the application**
+
+   ```bash
+   pnpm run build:prod
+   ```
+
+2. **Serve the built files**
+
+   The built files will be in the `artifacts/browser` directory. You can serve them with any web server:
+
+   ```bash
+   # Using a simple HTTP server
+   npx http-server artifacts/browser -p 8080
+   ```
+
+### 🐳 Build Docker Image
+
+To build your own Docker image:
+
+1. **Build the image**
+
+   ```bash
+   docker build -t barstrad-ui .
+   ```
+
+2. **Run the container**
+
+   ```bash
+   docker run -p 80:80 barstrad-ui
+   ```
+
+## Configuration
+
+### Menu Customization
+
+The application uses a JSON file for menu data. You can customize the menu by editing:
+
+```json
+// src/assets/menu-items.json
+{
+  "categories": [
+    {
+      "name": "Shots",
+      "name_bg": "Шотове",
+      "items": [
+        {
+          "name": "Tequila Jose Cuervo Silver 30ml",
+          "name_bg": "Текила Jose Cuervo Silver 30мл", 
+          "price": 4.00
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Language Configuration
+
+The application supports multiple languages through translation files:
+
+- `src/assets/i18n/en.json` - English translations
+- `src/assets/i18n/bg.json` - Bulgarian translations
+
+### Discord Webhook Setup (Optional)
+
+For order notifications:
+
+1. Create a Discord webhook in your server
+2. Copy the webhook URL
+3. Update your environment configuration:
+
+```typescript
+export const environment = {
+  production: false,
+  discordWebhookUrl: 'https://discord.com/api/webhooks/your-webhook-url'
+};
+```
+
+## Verification
+
+After setup, verify your application:
+
+1. **Check the application loads**
+
+   Navigate to [http://localhost:4200](http://localhost:4200) and verify the menu displays.
+
+2. **Test language switching**
+
+   Click the language flags to switch between English and Bulgarian.
+
+3. **Test theme switching**
+
+   Use the theme toggle to switch between light and dark themes.
+
+4. **Test order functionality**
+
+   Try placing a test order and check for Discord notifications (if configured).
+
+## Next Steps
+
+- **Customize the menu**: Edit the menu data files to match your establishment
+- **Configure branding**: Update colors, logos, and styling to match your brand
+- **Set up production deployment**: See our [Deployment Guide](./deployment) for production setup
+- **Explore advanced features**: Check out theme customization and PWA features
+   ```
+
+## Next Steps
+
+Now that your bot is running:
+
+- **[Customize the menu](./configuration/menu-setup)** - Add your own items and categories
+- **[Configure notifications](./configuration/webhooks)** - Set up order notifications
+- **[Learn bot commands](./bot-commands)** - Explore all available commands
+- **[Set up development environment](./development/setup)** - If you want to contribute
+
+## Common Setup Issues
+
+### Bot Not Responding
+
+- **Check configuration**: Ensure your environment variables are correct
+- **Check permissions**: Verify the bot has necessary permissions in the server
+- **Check status**: Look at the console/logs for error messages
+
+### Orders Not Working
+
+- **Check webhook URL**: Ensure the Discord webhook URL is correct
+- **Check channel permissions**: Verify the webhook has permissions to send messages
+- **Check item numbers**: Ensure you're using valid item numbers from the menu
+
+### Build Issues
+
+- **Node.js version**: Ensure you're using Node.js v18 or higher
+- **Dependencies**: Try deleting `node_modules` and running `npm install` again
+- **TypeScript errors**: Check for syntax errors in any modified files
+
+Need more help? Check out our [Troubleshooting Guide](./troubleshooting) or [open an issue](https://github.com/The-Running-Dev/BarStrad-UI/issues).

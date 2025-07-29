@@ -1,0 +1,335 @@
+# ====================================================================
+# RELEASE WORKFLOW
+# ====================================================================
+# 
+# Purpose: Automated production deployment workflow that builds and publishes
+#          Docker images to GitHub Container Registry and creates GitHub releases
+#          when code is pushed to the main branch.
+#
+# This workflow is responsible for:
+# - Building production-ready Angular application with optimizations
+# - Creating Docker images with nginx serving Angular artifacts
+# - Publishing images to GitHub Container Registry (ghcr.io)
+# - Deploying Angular application to GitHub Pages for public access
+# - Creating versioned GitHub releases with automated release notes
+# - Sending deployment notifications via configured webhooks
+#
+# ====================================================================
+# TRIGGERS
+# ====================================================================
+#
+# This workflow runs on:
+# 1. PUSH TO MAIN BRANCH: Automatic deployment when code is merged to main
+# 2. MANUAL TRIGGER: Emergency releases or testing via workflow_dispatch
+#
+# Path Exclusions (workflow will NOT run if only these paths change):
+# - documentation/** : Documentation-only changes don't require deployment
+# - .github/**       : Workflow configuration changes don't require deployment
+#
+# ====================================================================
+# WORKFLOW ARCHITECTURE
+# ====================================================================
+#
+# Runner Environment:
+# - OS: Ubuntu Latest (GitHub-hosted)
+# - Container: Custom build agent (ghcr.io/the-running-dev/docker-build-agent:latest)
+# - Runtime: Node.js with pnpm and Docker-in-Docker capabilities
+#
+# Angular Build Process:
+# 1. Full repository checkout with complete git history
+# 2. Version calculation using GitVersion for semantic versioning
+# 3. Angular production build with optimization and minification
+# 4. Docker image creation with nginx serving Angular artifacts
+# 5. Image publishing to GitHub Container Registry
+# 6. Angular artifacts upload for GitHub Pages deployment
+# 7. GitHub Pages deployment for public web access
+# 8. GitHub release creation with auto-generated release notes
+# 9. Notification delivery via configured webhooks
+#
+# Project-Specific Details:
+# - Angular 19.1.0 application with TypeScript
+# - pnpm package manager for dependency management
+# - ESLint code quality validation
+# - nginx alpine base image for production serving
+# - Artifacts output: artifacts/browser/ directory
+#
+# ====================================================================
+# PERMISSIONS & SECURITY
+# ====================================================================
+#
+# Required Permissions:
+# - packages:write : Publish Docker images to GitHub Container Registry
+# - contents:write : Create GitHub releases and tags
+# - pages:write    : Deploy to GitHub Pages (Deploy job)
+# - id-token:write : Verify deployment authenticity (Deploy job)
+#
+# Required Secrets:
+# - REGISTRY_TOKEN            : GitHub token with package write permissions
+# - NOTIFICATIONS_WEBHOOK_URL : Webhook URL for build/deployment notifications
+# - DISCORD_BOT_TOKEN         : Discord bot authentication token (optional)
+# - DISCORD_WEBHOOK_URL       : Discord webhook for deployment notifications
+#
+# Security Features:
+# - Minimal required permissions (principle of least privilege)
+# - Secure secret management through GitHub Secrets
+# - Container isolation for Angular build process
+# - Token scoping to specific registry and release operations
+#
+# Note: The custom build container handles Angular-specific build requirements
+# including pnpm package management and production optimization.
+#
+# ====================================================================
+# VERSIONING STRATEGY
+# ====================================================================
+#
+# Uses GitVersion for automatic semantic versioning:
+# - MAJOR: Breaking changes (e.g., 1.0.0 -> 2.0.0)
+# - MINOR: New features, backward compatible (e.g., 1.0.0 -> 1.1.0)
+# - PATCH: Bug fixes and patches (e.g., 1.0.0 -> 1.0.1)
+# - Automatic tag creation and release notes generation
+#
+# ====================================================================
+# OUTPUTS & ARTIFACTS
+# ====================================================================
+#
+# This workflow produces:
+# - Docker Image: ghcr.io/the-running-dev/barstrad-ui:version
+# - Registry Tags: 'latest' and semantic version tags
+# - GitHub Pages Deployment: Live web application at GitHub Pages URL
+# - GitHub Release: Tagged release with automated release notes
+# - Notifications: Webhook notifications for deployment status
+#
+# Angular Build Artifacts:
+# - Optimized JavaScript bundles with tree shaking
+# - Minified CSS with Angular Material theming
+# - Static assets (images, fonts, i18n files)
+# - nginx configuration for Angular routing support (Docker)
+# - GitHub Pages compatible static files (Pages deployment)
+# - Production-ready Docker image (<50MB typical size)
+#
+# ====================================================================
+name: Release
+
+# ====================================================================
+# WORKFLOW TRIGGERS
+# ====================================================================
+on:
+  # Manual trigger for emergency releases or testing
+  # Usage: Go to Actions tab > Release workflow > Run workflow
+  workflow_dispatch:
+  
+  # Automatic trigger on main branch push (production deployment)
+  push:
+    branches:
+      - main
+    # Skip deployment if only documentation or workflow files changed
+    paths-ignore:
+      - 'documentation/**'  # Documentation updates don't require deployment
+      - '.github/**'        # Workflow changes don't require deployment
+
+# ====================================================================
+# SECURITY PERMISSIONS
+# ====================================================================
+# Minimal required permissions following principle of least privilege
+permissions:
+  packages: write  # Required to publish Docker images to GitHub Container Registry
+  contents: write  # Required to create GitHub releases and tags
+
+# ====================================================================
+# JOBS CONFIGURATION
+# ====================================================================
+jobs:
+  Build:
+    # Use GitHub-hosted Ubuntu runner for consistent environment
+    runs-on: ubuntu-latest
+    
+    # Custom build container with pre-installed tools:
+    # - Node.js runtime with pnpm package manager
+    # - Docker-in-Docker capabilities for image building
+    # - GitVersion for semantic versioning
+    # - Angular CLI and TypeScript compiler
+    # - Custom build scripts (node-in-docker-build) for Angular projects
+    container:
+      image: ghcr.io/the-running-dev/build-agent:latest
+
+    steps:
+      # ================================================================
+      # STEP 1: REPOSITORY CHECKOUT
+      # ================================================================
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          # Fetch complete git history for proper versioning
+          # Required by GitVersion for accurate version calculation
+          fetch-depth: 0
+
+      # ================================================================
+      # STEP 2: BUILD AND DEPLOYMENT
+      # ================================================================
+      - name: Build and Publish Image
+        # Custom build script that performs:
+        # 1. Version calculation using GitVersion
+        # 2. Angular production build with optimization and tree shaking
+        # 3. Docker image build with nginx serving Angular artifacts
+        # 4. Image publishing to GitHub Container Registry
+        # 5. GitHub release creation with auto-generated notes
+        # 6. Notification dispatch via configured webhooks
+        run: node-in-docker-build --create-github-release true
+        env:
+          # ============================================================
+          # ENVIRONMENT VARIABLES & SECRETS
+          # ============================================================
+          
+          # GitHub authentication token with package write permissions
+          # Used for: Registry authentication, release creation, API access
+          RegistryToken: ${{ secrets.REGISTRY_TOKEN }}
+          
+          # Webhook URL for build and deployment notifications
+          # Used for: Sending status updates to external systems
+          NotificationsWebHookUrl: ${{ secrets.NOTIFICATIONS_WEBHOOK_URL }}
+          
+          # Discord webhook URL for deployment notifications
+          # Used for: Sending deployment status to Discord channels
+          DiscordWebhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+      # ================================================================
+      # STEP 3: PREPARE GITHUB PAGES ARTIFACT
+      # ================================================================
+      - name: Upload Artifact
+        # Upload Angular build artifacts for GitHub Pages deployment
+        # This prepares the artifacts/browser directory for Pages deployment
+        # Pages deployment requires specific artifact format and structure
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: artifacts/browser
+  
+      # Check if documentation files were modified in this commit
+      - name: Check for Documentation Changes
+        id: docs-changed
+        run: |
+          if git diff --name-only HEAD~1 HEAD | grep -q '^documentation/'; then
+            echo "Documentation changes detected"
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "No documentation changes found"
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      # Trigger documentation site rebuild if docs were updated
+      - name: Trigger Documentation Build
+        if: steps.docs-changed.outputs.changed == 'true'
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: Update-Documentation
+
+  # ====================================================================
+  # GITHUB PAGES DEPLOYMENT JOB
+  # ====================================================================
+  Deploy:
+    name: Deploy to GitHub Pages
+    needs: Build
+
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write # to deploy to Pages
+      id-token: write # to verify the deployment originates from an appropriate source
+
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
+      # ================================================================
+      # GITHUB PAGES DEPLOYMENT
+      # ================================================================
+      - name: Deploy to GitHub Pages
+        id: deployment
+        # Deploy the uploaded Angular artifacts to GitHub Pages
+        # This makes the Angular application publicly accessible
+        # URL will be available at: https://<owner>.github.io/<repo>/
+        uses: actions/deploy-pages@v4
+# ====================================================================
+# TROUBLESHOOTING GUIDE
+# ====================================================================
+#
+# Common Issues and Solutions:
+#
+# 1. Angular Build Failures:
+#    - Check container availability: ghcr.io/the-running-dev/docker-build-agent:latest
+#    - Verify TypeScript compilation in Angular components and services
+#    - Review Angular CLI build configuration in angular.json
+#    - Check for ESLint violations preventing production build
+#
+# 2. pnpm Dependency Issues:
+#    - Ensure pnpm-lock.yaml is not corrupted
+#    - Verify Angular 19.1.0 compatibility with dependencies
+#    - Check for version conflicts with Angular Material or FontAwesome
+#    - Review package.json dependency declarations
+#
+# 3. Docker Build Failures:
+#    - Ensure artifacts/browser/ directory exists after Angular build
+#    - Verify nginx:alpine base image availability
+#    - Check Dockerfile COPY paths match Angular build output
+#    - Review nginx configuration for Angular routing support
+#
+# 4. Registry Push Failures:
+#    - Ensure REGISTRY_TOKEN has 'packages:write' permission
+#    - Verify token is not expired and has correct scope
+#    - Check GitHub Container Registry storage limits
+#    - Review image naming convention (barstrad-ui vs barstrad-bot)
+#
+# 5. Release Creation Failures:
+#    - Ensure REGISTRY_TOKEN has 'contents:write' permission
+#    - Check if version tag already exists in repository
+#    - Verify GitVersion.yml configuration for Angular project
+#    - Review main branch commit history for proper versioning
+#
+# 6. Notification Failures:
+#    - Verify Discord webhook URLs are accessible
+#    - Check webhook endpoint authentication and format
+#    - Review webhook payload format requirements
+#    - Test webhook endpoints manually if needed
+#
+# 7. GitHub Pages Deployment Failures:
+#    - Ensure GitHub Pages is enabled in repository settings
+#    - Verify pages:write and id-token:write permissions are granted
+#    - Check that artifacts/browser directory contains valid HTML/JS/CSS
+#    - Ensure Angular build output is compatible with static hosting
+#    - Review GitHub Pages source configuration (GitHub Actions)
+#    - Check for Angular routing issues with static hosting
+#    - Verify artifact upload step completed successfully before deployment
+#
+# ====================================================================
+# MONITORING & MAINTENANCE
+# ====================================================================
+#
+# Regular Maintenance Tasks:
+# - Update GitHub Actions versions (actions/checkout@v4, actions/upload-pages-artifact@v3, actions/deploy-pages@v4)
+# - Rotate authentication tokens (REGISTRY_TOKEN)
+# - Monitor build container updates for Angular/Node.js compatibility
+# - Review and update webhook configurations
+# - Monitor GitHub Container Registry storage usage
+# - Verify GitHub Pages deployment settings and custom domain configuration
+#
+# Angular-Specific Maintenance:
+# - Monitor Angular CLI and framework updates
+# - Review Angular Material and third-party library compatibility
+# - Update ESLint configuration for new Angular features
+# - Validate Docker nginx configuration for Angular routing changes
+# - Monitor production bundle sizes and optimization opportunities
+# - Test GitHub Pages deployment with Angular routing and static hosting
+#
+# Monitoring Points:
+# - GitHub Actions workflow run status and timing
+# - GitHub Container Registry image sizes and vulnerability scans
+# - GitHub Pages deployment success rate and accessibility
+# - GitHub Releases creation success rate and version accuracy
+# - Webhook notification delivery success to Discord/external systems
+# - Angular build performance and bundle size trends
+# - Production deployment success and application health (both Docker and Pages)
+# - GitHub Pages URL accessibility and Angular routing functionality
+#
+# ====================================================================

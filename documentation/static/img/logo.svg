@@ -1,0 +1,13 @@
+<svg width="512" height="512" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <!-- Chat bubble background -->
+  <rect x="20" y="30" width="216" height="150" rx="40" ry="40" fill="#4A90E2" />
+  <!-- Bubble tail -->
+  <polygon points="80,180 110,220 140,180" fill="#4A90E2" />
+  <!-- Martini glass -->
+  <!-- Bowl of the glass (triangle oriented downward) -->
+  <polygon points="98,80 158,80 128,110" fill="#FFFFFF" />
+  <!-- Stem -->
+  <polygon points="122,110 134,110 134,150 122,150" fill="#FFFFFF" />
+  <!-- Base -->
+  <polygon points="110,150 146,150 146,158 110,158" fill="#FFFFFF" />
+</svg>

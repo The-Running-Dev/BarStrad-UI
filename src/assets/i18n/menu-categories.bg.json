@@ -1,0 +1,17 @@
+[
+  { "category": "Шотове", "icon": "fa-glass-whiskey" },
+  { "category": "Джин", "icon": "fa-wine-glass" },
+  { "category": "Уиски", "icon": "fa-glass-whiskey" },
+  { "category": "Ром", "icon": "fa-glass-whiskey" },
+  { "category": "Коняк", "icon": "fa-glass-cocktail" },
+  { "category": "Водка", "icon": "fa-glass-martini" },
+  { "category": "Анасонови напитки", "icon": "fa-glass-martini-alt" },
+  { "category": "Слабоалкохолни напитки", "icon": "fa-glass-cheers" },
+  { "category": "Наливна бира", "icon": "fa-beer" },
+  { "category": "Бира в бутилка", "icon": "fa-beer" },
+  { "category": "Шиша", "icon": "fa-smoking" },
+  { "category": "Безалкохолни напитки", "icon": "fa-glass-soda" },
+  { "category": "Енергийни напитки", "icon": "fa-bolt" },
+  { "category": "Топли напитки", "icon": "fa-coffee" },
+  { "category": "Ядки и чипс", "icon": "fa-seedling" }
+]

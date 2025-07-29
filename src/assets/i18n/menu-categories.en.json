@@ -1,0 +1,17 @@
+[
+  { "category": "Shots", "icon": "fa-glass-whiskey" },
+  { "category": "Gin", "icon": "fa-wine-glass" },
+  { "category": "Whisky", "icon": "fa-glass-whiskey" },
+  { "category": "Rum", "icon": "fa-glass-whiskey" },
+  { "category": "Cognac", "icon": "fa-glass-cocktail" },
+  { "category": "Vodka", "icon": "fa-glass-martini" },
+  { "category": "Aniseed Drinks", "icon": "fa-glass-martini-alt" },
+  { "category": "Low Alcohol Drinks", "icon": "fa-glass-cheers" },
+  { "category": "Draft Beer", "icon": "fa-beer" },
+  { "category": "Bottled Beer", "icon": "fa-beer" },
+  { "category": "Shisha", "icon": "fa-smoking" },
+  { "category": "Soft Drinks", "icon": "fa-glass-soda" },
+  { "category": "Energy Drinks", "icon": "fa-bolt" },
+  { "category": "Hot Drinks", "icon": "fa-coffee" },
+  { "category": "Nuts & Chips", "icon": "fa-seedling" }
+]
