@@ -176,11 +176,11 @@ jobs:
           
           # GitHub authentication token
           # Used for: Registry authentication (if needed), API access
-          GitHubRepositoryToken: ${{ secrets.REGISTRY_TOKEN }}
+          RegistryToken: ${{ secrets.REGISTRY_TOKEN }}
           
           # Webhook URL for CI build notifications
           # Used for: Sending status updates to external monitoring systems
-          BuildNotificationsWebHookUrl: ${{ secrets.NOTIFICATIONS_WEBHOOK_URL }}
+          NotificationsWebHookUrl: ${{ secrets.NOTIFICATIONS_WEBHOOK_URL }}
           
           # Discord webhook URL for CI notifications
           # Used for: Sending CI status updates to Discord channels

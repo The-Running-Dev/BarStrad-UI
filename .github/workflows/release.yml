@@ -182,11 +182,11 @@ jobs:
           
           # GitHub authentication token with package write permissions
           # Used for: Registry authentication, release creation, API access
-          GitHubRepositoryToken: ${{ secrets.REGISTRY_TOKEN }}
+          RegistryToken: ${{ secrets.REGISTRY_TOKEN }}
           
           # Webhook URL for build and deployment notifications
           # Used for: Sending status updates to external systems
-          BuildNotificationsWebHookUrl: ${{ secrets.NOTIFICATIONS_WEBHOOK_URL }}
+          NotificationsWebHookUrl: ${{ secrets.NOTIFICATIONS_WEBHOOK_URL }}
           
           # Discord webhook URL for deployment notifications
           # Used for: Sending deployment status to Discord channels
