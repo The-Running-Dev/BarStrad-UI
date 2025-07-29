@@ -1,5 +1,11 @@
 # BarStrad-UI
 
+[![CI](https://github.com/The-Running-Dev/BarStrad-UI/actions/workflows/ci.yml/badge.svg)](https://github.com/The-Running-Dev/BarStrad-UI/actions/workflows/ci.yml)
+[![Release](https://github.com/The-Running-Dev/BarStrad-UI/actions/workflows/release.yml/badge.svg)](https://github.com/The-Running-Dev/BarStrad-UI/actions/workflows/release.yml)
+[![Docs](https://github.com/The-Running-Dev/BarStrad-UI/actions/workflows/docs.yml/badge.svg)](https://github.com/The-Running-Dev/BarStrad-UI/actions/workflows/docs.yml)
+[![Docker](https://img.shields.io/badge/docker-ghcr.io-blue?logo=docker&logoColor=white)](https://github.com/The-Running-Dev/BarStrad-UI/pkgs/container/barstrad-ui)
+[![Live Demo](https://img.shields.io/badge/demo-barstrad.com-green?logo=angular&logoColor=white)](https://barstrad.com)
+
 A modern Angular-based bar menu application with multi-language support, theme customization, and Discord notifications.
 
 ## 🚀 Overview
