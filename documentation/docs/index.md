@@ -37,6 +37,7 @@ BarStrad-UI is a modern Angular 19 application designed for restaurants and bars
 - **Search Functionality**: Quick search across all menu items
 - **Category Navigation**: Easy filtering by drink/food categories
 - **Item Details**: Detailed information including prices and descriptions
+
 ### 🛒 Table Service & Orders
 
 - **Table Integration**: Table number selection for order management

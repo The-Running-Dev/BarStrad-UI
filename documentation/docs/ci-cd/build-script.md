@@ -71,11 +71,11 @@ docker info
 
 The script produces several artifacts:
 
-| Artifact | Location | Description |
-|----------|----------|-------------|
-| **Compiled JS** | `./artifacts/` | TypeScript compiled to JavaScript |
-| **Docker Image** | Local registry | `barstrad-bot` container image |
-| **Dependencies** | `./node_modules/` | Production Node.js packages |
+| Artifact         | Location          | Description                       |
+| ---------------- | ----------------- | --------------------------------- |
+| **Compiled JS**  | `./artifacts/`    | TypeScript compiled to JavaScript |
+| **Docker Image** | Local registry    | `barstrad-bot` container image    |
+| **Dependencies** | `./node_modules/` | Production Node.js packages       |
 
 ## Build Agent Container
 
@@ -92,12 +92,12 @@ The script includes comprehensive error handling:
 
 ### Common Issues
 
-| Issue | Symptoms | Solution |
-|-------|----------|----------|
-| **Docker not running** | "Docker daemon not accessible" | Start Docker Desktop |
-| **Build agent unavailable** | "Failed to pull build agent" | Check internet connectivity |
-| **TypeScript errors** | "Node.js in Docker Build Failed" | Fix TypeScript compilation errors |
-| **Permission issues** | "Access denied" | Run as administrator or check Docker permissions |
+| Issue                       | Symptoms                         | Solution                                         |
+| --------------------------- | -------------------------------- | ------------------------------------------------ |
+| **Docker not running**      | "Docker daemon not accessible"   | Start Docker Desktop                             |
+| **Build agent unavailable** | "Failed to pull build agent"     | Check internet connectivity                      |
+| **TypeScript errors**       | "Node.js in Docker Build Failed" | Fix TypeScript compilation errors                |
+| **Permission issues**       | "Access denied"                  | Run as administrator or check Docker permissions |
 
 ### Error Messages
 
@@ -115,11 +115,11 @@ The script provides detailed error context:
 
 ### Development vs Production
 
-| Purpose | Command | Environment |
-|---------|---------|-------------|
-| **Development** | `npm run dev` | Local TypeScript execution |
+| Purpose              | Command       | Environment                 |
+| -------------------- | ------------- | --------------------------- |
+| **Development**      | `npm run dev` | Local TypeScript execution  |
 | **Production Build** | `.\build.ps1` | Containerized build process |
-| **CI/CD Build** | Automated | GitHub Actions workflows |
+| **CI/CD Build**      | Automated     | GitHub Actions workflows    |
 
 ### Package.json Scripts
 
@@ -259,8 +259,8 @@ For faster builds, consider:
 
 ### Version History
 
-| Version | Changes | Date |
-|---------|---------|------|
+| Version | Changes                              | Date    |
+| ------- | ------------------------------------ | ------- |
 | **1.0** | Initial release with full validation | Current |
 
 ---

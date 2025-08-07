@@ -91,7 +91,7 @@ The deployment process involves multiple components working together:
 
 4. **Documentation Integration**
    - Detect documentation changes in the commit
-   - Trigger documentation workflow if needed  
+   - Trigger documentation workflow if needed
    - Coordinate documentation updates with releases
 
 5. **Post-Deployment**
@@ -222,11 +222,11 @@ services:
     container_name: barstrad-ui
     restart: unless-stopped
     ports:
-      - "80:80"
+      - '80:80'
     environment:
       - NODE_ENV=production
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/"]
+      test: ['CMD', 'curl', '-f', 'http://localhost/']
       interval: 30s
       timeout: 10s
       retries: 3

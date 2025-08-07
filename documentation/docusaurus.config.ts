@@ -1,31 +1,28 @@
-import {themes as prismThemes} from 'prism-react-renderer';
-import getVersion from './scripts/get-version';
-import type {Config} from '@docusaurus/types';
+import { themes as prismThemes } from 'prism-react-renderer';
+import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
-// This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
-const version = getVersion();
+import { SiteConfig, SiteThemeConfig } from './config/site-config';
+import type { NavbarLink } from './src/entities';
+import navbarData from './src/navbarLinks.json';
+
+const navbarLinks: NavbarLink[] = (navbarData?.links || []) as NavbarLink[];
+
 const config: Config = {
-  title: 'BarStrad',
-  tagline: 'Your Bar',
-  favicon: 'img/favicon.ico',
-  markdown: {
-    mermaid: true,
-  },
-  themes: ['@docusaurus/theme-mermaid'],
-  future: {
-    v4: true,
-  },
-  url: 'https://the-running-dev.github.io',
-  baseUrl: '/BarStrad-UI',
+  // Use base defaults
+  ...SiteConfig,
+  // Add additional configuration
   trailingSlash: false,
-  organizationName: 'The-Running-Dev',
-  projectName: 'BarStrad-Bot',
+  favicon: 'img/favicon.ico',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
+  markdown: {
+    mermaid: true
+  },
+  themes: ['@docusaurus/theme-mermaid'],
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en']
   },
   presets: [
     [
@@ -33,60 +30,51 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          routeBasePath: '/', // Serve the docs at the site's root
           path: 'docs',
-          id: 'default',
+          id: 'default'
         },
-        blog: false, // Disable blog since docs is now the root
         theme: {
-          customCss: './src/css/custom.css',
-        },
-      } satisfies Preset.Options,
-    ],
+          customCss: './static/themes/default.css'
+        }
+      } satisfies Preset.Options
+    ]
   ],
   themeConfig: {
+    // Merge base theme config
+    ...SiteThemeConfig,
+    // Add additional theme configuration
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
-      title: 'BarStrad',
-      logo: {
-        alt: 'BarStrad Logo',
-        src: 'img/logo.svg',
-      },
+      ...SiteThemeConfig.navbar,
       hideOnScroll: false,
       items: [
         {
           type: 'doc',
           docId: 'index',
           position: 'left',
-          label: 'Docs',
+          label: 'Docs'
         },
         {
-          label: `v${version}`,
-          position: 'right',
-          href: '#',
+          type: 'custom-gitHubLinks',
+          position: 'right'
         },
         {
-          href: 'https://github.com/The-Running-Dev/BarStrad-UI',
-          label: 'GitHub',
-          position: 'right',
+          type: 'custom-versionDisplay',
+          position: 'right'
         },
         {
-          href: 'https://github.com/The-Running-Dev/BarStrad-UI/releases',
-          label: 'Releases',
-          position: 'right',
+          type: 'custom-themeSwitcher',
+          position: 'right'
         },
-        {
-          href: 'https://ghcr.io/the-running-dev/barstrad-ui',
-          label: 'Container Registry',
-          position: 'right',
-        }
-      ],
+        // ...auto generated links,
+        ...navbarLinks
+      ]
     },
     prism: {
       theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
-    },
-  } satisfies Preset.ThemeConfig,
+      darkTheme: prismThemes.dracula
+    }
+  } satisfies Preset.ThemeConfig
 };
 
 export default config;

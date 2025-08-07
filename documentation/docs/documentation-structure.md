@@ -39,6 +39,7 @@ This document outlines the complete organization of the BarStrad-UI documentatio
 #### 6. Troubleshooting (`troubleshooting.md`) - Position 8
 
 #### 7. Documentation Structure (`documentation-structure.md`) - Position 10
+
 - **Deployment Guide** (`deployment-guide.md`) - Position 6
 
 ### Reference Documentation
@@ -46,7 +47,6 @@ This document outlines the complete organization of the BarStrad-UI documentatio
 1. **Troubleshooting** (`troubleshooting.md`) - Position 7
 2. **API Reference** (`api.md`) - Position 8
 3. **Documentation Structure** (`documentation-structure.md`) - Position 10
-
 
 ## 🎯 Navigation Structure
 
@@ -80,7 +80,7 @@ Each subdirectory contains a `_category_.json` file that defines:
   }
 }
 
-// development/_category_.json  
+// development/_category_.json
 {
   "label": "Development",
   "position": 4,

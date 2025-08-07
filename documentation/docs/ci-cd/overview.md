@@ -104,12 +104,12 @@ branches:
 
 All workflows require these GitHub Secrets:
 
-| Secret | Purpose | Workflows |
-|--------|---------|-----------|
-| `REGISTRY_TOKEN` | GitHub Container Registry access | CI, Release |
-| `NOTIFICATIONS_WEBHOOK_URL` | Build status notifications | CI, Release |
-| `DISCORD_BOT_TOKEN` | Discord bot configuration | CI, Release |
-| `DISCORD_WEBHOOK_URL` | Discord notifications | CI, Release |
+| Secret                      | Purpose                          | Workflows   |
+| --------------------------- | -------------------------------- | ----------- |
+| `REGISTRY_TOKEN`            | GitHub Container Registry access | CI, Release |
+| `NOTIFICATIONS_WEBHOOK_URL` | Build status notifications       | CI, Release |
+| `DISCORD_BOT_TOKEN`         | Discord bot configuration        | CI, Release |
+| `DISCORD_WEBHOOK_URL`       | Discord notifications            | CI, Release |
 
 ### Permission Model
 
@@ -258,12 +258,12 @@ Documentation Detection → Docs Workflow Trigger (if needed)
 
 The CI/CD workflows require the following secrets to be configured in GitHub:
 
-| Secret | Purpose | Workflows |
-|--------|---------|-----------|
-| `REGISTRY_TOKEN` | GitHub token with package write permissions | Release |
-| `NOTIFICATIONS_WEBHOOK_URL` | Webhook URL for build notifications | CI, Release |
-| `DISCORD_BOT_TOKEN` | Discord bot authentication token | CI, Release |
-| `DISCORD_WEBHOOK_URL` | Discord webhook URL for order notifications | CI, Release |
+| Secret                      | Purpose                                     | Workflows   |
+| --------------------------- | ------------------------------------------- | ----------- |
+| `REGISTRY_TOKEN`            | GitHub token with package write permissions | Release     |
+| `NOTIFICATIONS_WEBHOOK_URL` | Webhook URL for build notifications         | CI, Release |
+| `DISCORD_BOT_TOKEN`         | Discord bot authentication token            | CI, Release |
+| `DISCORD_WEBHOOK_URL`       | Discord webhook URL for order notifications | CI, Release |
 
 ### Secret Configuration
 

@@ -17,7 +17,7 @@ Set up your local testing environment:
    ```bash
    # Install all dependencies
    pnpm install
-   
+
    # Install testing dependencies
    pnpm install --save-dev @angular/testing
    ```
@@ -27,7 +27,7 @@ Set up your local testing environment:
    ```bash
    # Start development server
    pnpm start
-   
+
    # Server should be available at http://localhost:4200
    ```
 
@@ -59,11 +59,11 @@ Use test menu data for consistent testing:
     "items": [
       {
         "name": "Test Coffee",
-        "price": 5.00
+        "price": 5.0
       },
       {
         "name": "Test Tea",
-        "price": 3.50
+        "price": 3.5
       }
     ]
   }
@@ -286,7 +286,7 @@ Before submitting changes, ensure:
 #### Functionality Tests
 
 - [ ] All components render correctly
-- [ ] Language switching works as expected  
+- [ ] Language switching works as expected
 - [ ] Menu items display properly
 - [ ] Settings component functions correctly
 
@@ -406,8 +406,8 @@ export const mockMenuItems = [
   {
     name: 'Test Category',
     items: [
-      { name: 'Test Item 1', price: 5.00 },
-      { name: 'Test Item 2', price: 7.50 }
+      { name: 'Test Item 1', price: 5.0 },
+      { name: 'Test Item 2', price: 7.5 }
     ]
   }
 ];

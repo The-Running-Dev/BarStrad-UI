@@ -134,8 +134,8 @@ The application uses a JSON file for menu data. You can customize the menu by ed
       "items": [
         {
           "name": "Tequila Jose Cuervo Silver 30ml",
-          "name_bg": "Текила Jose Cuervo Silver 30мл", 
-          "price": 4.00
+          "name_bg": "Текила Jose Cuervo Silver 30мл",
+          "price": 4.0
         }
       ]
     }
@@ -211,7 +211,7 @@ Now that your application is running, here are the recommended next steps:
 
 ### Orders Not Working
 
-- **Check webhook URL**: Ensure the Discord webhook URL is correct and valid  
+- **Check webhook URL**: Ensure the Discord webhook URL is correct and valid
 - **Check channel permissions**: Verify the webhook has permissions to send messages
 - **Check network connectivity**: Ensure your application can reach Discord's servers
 

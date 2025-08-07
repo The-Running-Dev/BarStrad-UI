@@ -34,10 +34,10 @@ This guide covers how to test GitHub Actions workflows locally using Act, a tool
    ```bash
    # Install using winget (Windows Package Manager)
    winget install nektos.act
-   
+
    # Or using Chocolatey
    choco install act-cli
-   
+
    # Or using Scoop
    scoop install act
    ```
@@ -65,11 +65,11 @@ The BarStrad-Bot project includes three PowerShell scripts for running workflows
 
 ### Available Scripts
 
-| Script | Workflow | Purpose |
-|--------|----------|---------|
-| `scripts/ci-workflow.ps1` | CI Workflow | Code validation and testing |
-| `scripts/release-workflow.ps1` | Release Workflow | Production builds and releases |
-| `scripts/docs-workflow.ps1` | Documentation Workflow | Documentation site generation |
+| Script                         | Workflow               | Purpose                        |
+| ------------------------------ | ---------------------- | ------------------------------ |
+| `scripts/ci-workflow.ps1`      | CI Workflow            | Code validation and testing    |
+| `scripts/release-workflow.ps1` | Release Workflow       | Production builds and releases |
+| `scripts/docs-workflow.ps1`    | Documentation Workflow | Documentation site generation  |
 
 ### Script Structure
 
@@ -409,22 +409,22 @@ Add tasks to `.vscode/tasks.json`:
 
 ```json
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "Run CI Workflow (Act)",
-            "type": "shell",
-            "command": "powershell",
-            "args": ["-File", ".\\scripts\\ci-workflow.ps1"],
-            "group": "test",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            }
-        }
-    ]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run CI Workflow (Act)",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-File", ".\\scripts\\ci-workflow.ps1"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new"
+      }
+    }
+  ]
 }
 ```
 
