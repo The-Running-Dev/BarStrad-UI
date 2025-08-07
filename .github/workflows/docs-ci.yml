@@ -201,7 +201,7 @@ jobs:
           
           # Validate critical pages exist
           echo "🔍 Validating Critical Documentation Pages..."
-          critical_pages="docs/index.html docs/getting-started/index.html docs/configuration/index.html docs/ci-cd/index.html"
+          critical_pages="docs/index.html docs/configuration/overview.html docs/ci-cd/overview.html"
           
           for page in $critical_pages; do
             if [ -f "artifacts/$page" ]; then
