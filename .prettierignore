@@ -5,6 +5,7 @@ node_modules/
 artifacts/
 documentation/artifacts/
 documentation/.docusaurus/
+documentation/src/*.json
 
 # Logs
 *.log
