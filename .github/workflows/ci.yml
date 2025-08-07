@@ -175,6 +175,9 @@ jobs:
           # Used for: Sending status updates to external monitoring systems
           NotificationsWebHookUrl: ${{ secrets.NOTIFICATIONS_WEBHOOK_URL }}
 
+          # Discord webhook URL for order notifications
+          DiscordWebhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
+
 # ====================================================================
 # VALIDATION PROCESS
 # ====================================================================

@@ -18,9 +18,11 @@ export class PreBuild {
 
       // Extract theme-id and theme-name from CSS header comments with improved regex
       // Handle both single-line and multi-line comments, with better whitespace handling
-      const themeIdMatch = content.match(/@theme-id\s*:\s*([^\s\r\n*\/]+)/i);
+      const themeIdMatch = content.match(
+        /@theme-id\s*:\s*([^\s\r\n*/]{1,50})/i
+      );
       const themeNameMatch = content.match(
-        /@theme-name\s*:\s*([^\r\n*]+?)(?=\r?\n|\*\/|$)/i
+        /@theme-name\s*:\s*([^\r\n*]{1,100})/i
       );
 
       // Extract and validate theme ID
