@@ -57,19 +57,19 @@ BarStrad-UI is a modern Angular 19 application designed for restaurants and bars
 
 ## 🚀 Quick Start
 
-Ready to get started? Check out our [Getting Started Guide](./getting-started) for step-by-step setup instructions.
+Ready to get started? Check out our [Getting Started Guide](/docs/getting-started) for step-by-step setup instructions.
 
-For developers looking to contribute, see our [Development Guide](./development/setup).
+For developers looking to contribute, see our [Development Guide](/docs/development/setup).
 
 ## 📚 Documentation Structure
 
 This documentation is organized into several sections:
 
-- **[Getting Started](./getting-started)** - Quick setup and installation
-- **[Configuration](./configuration/overview)** - Environment and menu configuration
-- **[Development](./development/setup)** - Development environment setup
-- **[CI/CD](./ci-cd/overview)** - Continuous integration and deployment
-- **[Deployment](./ci-cd/deployment-guide)** - Production deployment guides
+- **[Getting Started](/docs/getting-started)** - Quick setup and installation
+- **[Configuration](/docs/configuration/overview)** - Environment and menu configuration
+- **[Development](/docs/development/setup)** - Development environment setup
+- **[CI/CD](/docs/ci-cd/overview)** - Continuous integration and deployment
+- **[Deployment](/docs/ci-cd/deployment-guide)** - Production deployment guides
 
 ## 🎯 Use Cases
 
@@ -105,4 +105,4 @@ Visit [http://localhost](http://localhost) to experience the application locally
 
 ---
 
-**Ready to deploy your own BarStrad-UI?** Let's [get started](./getting-started)! 🚀
+**Ready to deploy your own BarStrad-UI?** Let's [get started](/docs/getting-started)! 🚀
