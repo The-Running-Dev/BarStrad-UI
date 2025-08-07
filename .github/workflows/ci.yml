@@ -140,7 +140,7 @@ jobs:
       - uses: fkirc/skip-duplicate-actions@v5
         with:
           cancel_others: true
-          concurrent_skips: same_content_newer
+          concurrent_skipping: same_content_newer
           skip_after_successful_duplicate: true
 
       # ================================================================
