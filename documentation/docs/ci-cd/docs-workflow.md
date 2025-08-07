@@ -11,7 +11,7 @@ The Documentation workflow (`docs.yml`) automates the building and deployment of
 This workflow provides automated documentation deployment with the following key features:
 
 - **Docusaurus Integration** - Builds modern documentation sites
-- **GitHub Pages Deployment** - Automatic hosting on GitHub Pages  
+- **GitHub Pages Deployment** - Automatic hosting on GitHub Pages
 - **Custom Build Environment** - Uses specialized build agent container
 - **Manual and API Triggers** - Flexible triggering options
 - **Secure Deployment** - Minimal permissions and verified deployment
@@ -159,8 +159,8 @@ The custom build agent container includes:
 
 ```yaml
 permissions:
-  pages: write      # Deploy to GitHub Pages
-  id-token: write   # Verify deployment authenticity
+  pages: write # Deploy to GitHub Pages
+  id-token: write # Verify deployment authenticity
 ```
 
 **Environment Setup:**
@@ -225,11 +225,11 @@ environment:
 
 ### Build-time Variables
 
-| Variable | Purpose | Source |
-|----------|---------|--------|
-| `GITHUB_TOKEN` | Repository access | Automatic (GitHub) |
+| Variable           | Purpose             | Source             |
+| ------------------ | ------------------- | ------------------ |
+| `GITHUB_TOKEN`     | Repository access   | Automatic (GitHub) |
 | `GITHUB_WORKSPACE` | Workspace directory | Automatic (GitHub) |
-| `NODE_ENV` | Node.js environment | Build agent |
+| `NODE_ENV`         | Node.js environment | Build agent        |
 
 ### Runtime Configuration
 
@@ -332,21 +332,21 @@ environment:
 
 ### Common Build Issues
 
-| Issue | Symptoms | Solution |
-|-------|----------|----------|
-| **Container Access Denied** | Pull errors, authentication failures | Verify `packages: write` permission |
-| **Build Command Not Found** | `node-template-build: command not found` | Check build agent container version |
-| **Out of Memory** | Build process killed, memory errors | Optimize build configuration |
-| **Missing Dependencies** | Module not found errors | Check package.json and dependency installation |
+| Issue                       | Symptoms                                 | Solution                                       |
+| --------------------------- | ---------------------------------------- | ---------------------------------------------- |
+| **Container Access Denied** | Pull errors, authentication failures     | Verify `packages: write` permission            |
+| **Build Command Not Found** | `node-template-build: command not found` | Check build agent container version            |
+| **Out of Memory**           | Build process killed, memory errors      | Optimize build configuration                   |
+| **Missing Dependencies**    | Module not found errors                  | Check package.json and dependency installation |
 
 ### Common Deployment Issues
 
-| Issue | Symptoms | Solution |
-|-------|----------|----------|
-| **Pages Not Updating** | Old content still visible | Check deployment logs, clear browser cache |
-| **404 Errors** | Pages not found | Verify base URL configuration |
-| **Asset Loading Failures** | Broken styles, missing images | Check asset paths and build output |
-| **Deployment Timeout** | Deployment hangs or fails | Check artifact size and GitHub Pages limits |
+| Issue                      | Symptoms                      | Solution                                    |
+| -------------------------- | ----------------------------- | ------------------------------------------- |
+| **Pages Not Updating**     | Old content still visible     | Check deployment logs, clear browser cache  |
+| **404 Errors**             | Pages not found               | Verify base URL configuration               |
+| **Asset Loading Failures** | Broken styles, missing images | Check asset paths and build output          |
+| **Deployment Timeout**     | Deployment hangs or fails     | Check artifact size and GitHub Pages limits |
 
 ### Debug Workflow
 

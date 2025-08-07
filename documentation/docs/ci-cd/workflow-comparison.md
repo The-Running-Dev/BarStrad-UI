@@ -8,90 +8,90 @@ This document provides a comprehensive side-by-side comparison of all three GitH
 
 ## At a Glance
 
-| Aspect | CI | Release | Documentation |
-|--------|-------------|------------------|----------------------|
-| **File** | `.github/workflows/ci.yml` | `.github/workflows/release.yml` | `.github/workflows/docs.yml` |
-| **Purpose** | Validate changes | Deploy to production | Deploy documentation |
-| **Triggers** | PRs, feature branches, manual | Main branch, manual | Manual, API dispatch |
-| **Artifacts** | None (dry-run) | Docker image, GitHub release | Static documentation site |
-| **Duration** | ~2-3 minutes | ~5-10 minutes | ~3-5 minutes |
-| **Resource Usage** | Low | Medium | Low-Medium |
-| **Output Location** | None | GitHub Container Registry | GitHub Pages |
+| Aspect              | CI                            | Release                         | Documentation                |
+| ------------------- | ----------------------------- | ------------------------------- | ---------------------------- |
+| **File**            | `.github/workflows/ci.yml`    | `.github/workflows/release.yml` | `.github/workflows/docs.yml` |
+| **Purpose**         | Validate changes              | Deploy to production            | Deploy documentation         |
+| **Triggers**        | PRs, feature branches, manual | Main branch, manual             | Manual, API dispatch         |
+| **Artifacts**       | None (dry-run)                | Docker image, GitHub release    | Static documentation site    |
+| **Duration**        | ~2-3 minutes                  | ~5-10 minutes                   | ~3-5 minutes                 |
+| **Resource Usage**  | Low                           | Medium                          | Low-Medium                   |
+| **Output Location** | None                          | GitHub Container Registry       | GitHub Pages                 |
 
 ## Detailed Comparison
 
 ### Triggers
 
-| Event | CI | Release | Documentation |
-|-------|-------------|------------------|----------------------|
-| Pull Request | ✅ Yes | ❌ No | ❌ No |
-| Push to feature branch | ✅ Yes | ❌ No | ❌ No |
-| Push to main branch | ❌ No | ✅ Yes | ❌ No |
-| Manual trigger | ✅ Yes | ✅ Yes | ✅ Yes |
-| Repository dispatch | ❌ No | ❌ No | ✅ Yes (Update-Documentation) |
+| Event                  | CI     | Release | Documentation                 |
+| ---------------------- | ------ | ------- | ----------------------------- |
+| Pull Request           | ✅ Yes | ❌ No   | ❌ No                         |
+| Push to feature branch | ✅ Yes | ❌ No   | ❌ No                         |
+| Push to main branch    | ❌ No  | ✅ Yes  | ❌ No                         |
+| Manual trigger         | ✅ Yes | ✅ Yes  | ✅ Yes                        |
+| Repository dispatch    | ❌ No  | ❌ No   | ✅ Yes (Update-Documentation) |
 
 ### Permissions
 
-| Permission | CI | Release | Documentation |
-|------------|-------------|------------------|----------------------|
-| `packages: write` | ✅ Yes | ✅ Yes | ❌ No |
-| `contents: write` | ❌ No | ✅ Yes | ❌ No |
-| `pages: write` | ❌ No | ✅ Yes (Deploy job) | ✅ Yes (Deploy job) |
-| `id-token: write` | ❌ No | ✅ Yes (Deploy job) | ✅ Yes (Deploy job) |
+| Permission        | CI     | Release             | Documentation       |
+| ----------------- | ------ | ------------------- | ------------------- |
+| `packages: write` | ✅ Yes | ✅ Yes              | ❌ No               |
+| `contents: write` | ❌ No  | ✅ Yes              | ❌ No               |
+| `pages: write`    | ❌ No  | ✅ Yes (Deploy job) | ✅ Yes (Deploy job) |
+| `id-token: write` | ❌ No  | ✅ Yes (Deploy job) | ✅ Yes (Deploy job) |
 
 ### Build Commands
 
-| Workflow | Command | Purpose |
-|----------|---------|---------|
-| CI | `node-in-docker-build --dry-run true` | Validation only |
-| Release | `node-in-docker-build --create-github-release true` | Production deployment |
-| Documentation | `node-template-build -appDir 'documentation'` | Documentation site build |
+| Workflow      | Command                                             | Purpose                  |
+| ------------- | --------------------------------------------------- | ------------------------ |
+| CI            | `node-in-docker-build --dry-run true`               | Validation only          |
+| Release       | `node-in-docker-build --create-github-release true` | Production deployment    |
+| Documentation | `node-template-build -appDir 'documentation'`       | Documentation site build |
 
 ### Job Architecture
 
-| Workflow | Jobs | Dependencies |
-|----------|------|--------------|
-| CI | 1 job (Build) | None |
-| Release | 2 jobs (Build, Deploy) | Deploy depends on Build |
+| Workflow      | Jobs                   | Dependencies            |
+| ------------- | ---------------------- | ----------------------- |
+| CI            | 1 job (Build)          | None                    |
+| Release       | 2 jobs (Build, Deploy) | Deploy depends on Build |
 | Documentation | 2 jobs (Build, Deploy) | Deploy depends on Build |
 
 ### Outputs
 
-| Output Type | CI | Release | Documentation |
-|-------------|-------------|------------------|----------------------|
-| Docker Image | ❌ None | ✅ Published to registry | ❌ None |
-| GitHub Release | ❌ None | ✅ Created with notes | ❌ None |
-| Registry Tags | ❌ None | ✅ Latest + version tags | ❌ None |
-| Artifacts | ❌ None | ✅ Release assets + Pages artifact | ✅ Pages artifact |
-| Static Site | ❌ None | ❌ None (Docker only) | ✅ GitHub Pages deployment |
+| Output Type    | CI      | Release                            | Documentation              |
+| -------------- | ------- | ---------------------------------- | -------------------------- |
+| Docker Image   | ❌ None | ✅ Published to registry           | ❌ None                    |
+| GitHub Release | ❌ None | ✅ Created with notes              | ❌ None                    |
+| Registry Tags  | ❌ None | ✅ Latest + version tags           | ❌ None                    |
+| Artifacts      | ❌ None | ✅ Release assets + Pages artifact | ✅ Pages artifact          |
+| Static Site    | ❌ None | ❌ None (Docker only)              | ✅ GitHub Pages deployment |
 
 ### Container Environment
 
-| Aspect | CI | Release | Documentation |
-|--------|-------------|------------------|----------------------|
-| **Container Image** | `build-agent:latest` | `build-agent:latest` | `build-agent:latest` |
-| **Runner** | `ubuntu-latest` | `ubuntu-latest` | `ubuntu-latest` |
-| **Build Tools** | Node.js, Docker | Node.js, Docker | Node.js, documentation tools |
-| **Custom Commands** | `node-in-docker-build` | `node-in-docker-build` | `node-template-build` |
+| Aspect              | CI                     | Release                | Documentation                |
+| ------------------- | ---------------------- | ---------------------- | ---------------------------- |
+| **Container Image** | `build-agent:latest`   | `build-agent:latest`   | `build-agent:latest`         |
+| **Runner**          | `ubuntu-latest`        | `ubuntu-latest`        | `ubuntu-latest`              |
+| **Build Tools**     | Node.js, Docker        | Node.js, Docker        | Node.js, documentation tools |
+| **Custom Commands** | `node-in-docker-build` | `node-in-docker-build` | `node-template-build`        |
 
 ### Environment Variables
 
 All workflows use these common environment variables:
 
-| Variable | CI | Release | Documentation |
-|----------|-------------|------------------|----------------------|
-| `GitHubRepositoryToken` | ✅ Yes | ✅ Yes | ✅ Yes (implicit) |
-| `BuildNotificationsWebHookUrl` | ✅ Yes | ✅ Yes | ❌ No |
-| `DiscordWebhookUrl` | ✅ Yes | ✅ Yes | ❌ No |
+| Variable                       | CI     | Release | Documentation     |
+| ------------------------------ | ------ | ------- | ----------------- |
+| `GitHubRepositoryToken`        | ✅ Yes | ✅ Yes  | ✅ Yes (implicit) |
+| `BuildNotificationsWebHookUrl` | ✅ Yes | ✅ Yes  | ❌ No             |
+| `DiscordWebhookUrl`            | ✅ Yes | ✅ Yes  | ❌ No             |
 
 ### Path Exclusions
 
 All workflows ignore the same paths:
 
-| Path Pattern | CI | Release | Documentation |
-|--------------|-------------|------------------|----------------------|
+| Path Pattern       | CI          | Release     | Documentation   |
+| ------------------ | ----------- | ----------- | --------------- |
 | `documentation/**` | ✅ Excluded | ✅ Excluded | ❌ Not excluded |
-| `.github/**` | ✅ Excluded | ✅ Excluded | ✅ Excluded |
+| `.github/**`       | ✅ Excluded | ✅ Excluded | ✅ Excluded     |
 
 ## When to Use Each Workflow
 
@@ -141,14 +141,14 @@ External API Call → Documentation Workflow → GitHub Pages
 
 ### Decision Matrix
 
-| Scenario | Recommended Workflow |
-|----------|---------------------|
-| **Feature development** | CI Workflow |
-| **Pull request validation** | CI Workflow (automatic) |
-| **Production release** | Release Workflow (automatic) |
-| **Emergency hotfix** | Release Workflow (manual) |
-| **Documentation update** | Documentation Workflow (manual) |
-| **External doc sync** | Documentation Workflow (API) |
+| Scenario                    | Recommended Workflow            |
+| --------------------------- | ------------------------------- |
+| **Feature development**     | CI Workflow                     |
+| **Pull request validation** | CI Workflow (automatic)         |
+| **Production release**      | Release Workflow (automatic)    |
+| **Emergency hotfix**        | Release Workflow (manual)       |
+| **Documentation update**    | Documentation Workflow (manual) |
+| **External doc sync**       | Documentation Workflow (API)    |
 
 ## Resource Usage Comparison
 
@@ -259,12 +259,12 @@ All workflows can be monitored through:
 
 ### Permission Models
 
-| Security Aspect | CI | Release | Documentation |
-|------------------|-------------|------------------|----------------------|
-| **Registry Access** | Read-only validation | Read-write publishing | Read-only container access |
-| **Repository Access** | Read-only | Read-write (releases) | Read-write (Pages) |
-| **Secret Access** | Build secrets only | All deployment secrets | Minimal secrets |
-| **External Access** | None | Registry publishing | GitHub Pages deployment |
+| Security Aspect       | CI                   | Release                | Documentation              |
+| --------------------- | -------------------- | ---------------------- | -------------------------- |
+| **Registry Access**   | Read-only validation | Read-write publishing  | Read-only container access |
+| **Repository Access** | Read-only            | Read-write (releases)  | Read-write (Pages)         |
+| **Secret Access**     | Build secrets only   | All deployment secrets | Minimal secrets            |
+| **External Access**   | None                 | Registry publishing    | GitHub Pages deployment    |
 
 ### Best Practices Applied
 
@@ -277,20 +277,20 @@ All workflows can be monitored through:
 
 ### Workflow Not Triggering
 
-| Issue | CI | Release | Documentation |
-|-------|-------------|------------------|----------------------|
-| **Wrong Branch** | Check PR/feature branch | Check main branch push | Manual trigger required |
-| **Path Exclusions** | Excluded paths modified | Excluded paths modified | No path exclusions |
-| **Permissions** | Check PR permissions | Check push permissions | Check manual permissions |
+| Issue               | CI                      | Release                 | Documentation            |
+| ------------------- | ----------------------- | ----------------------- | ------------------------ |
+| **Wrong Branch**    | Check PR/feature branch | Check main branch push  | Manual trigger required  |
+| **Path Exclusions** | Excluded paths modified | Excluded paths modified | No path exclusions       |
+| **Permissions**     | Check PR permissions    | Check push permissions  | Check manual permissions |
 
 ### Build Failures
 
-| Issue Type | Primary Workflow | Secondary Workflows | Solution Reference |
-|------------|------------------|-------------------|-------------------|
-| **TypeScript Errors** | CI (most common) | Release | Check source code |
-| **Docker Build** | All workflows | - | Check Dockerfile |
-| **Dependencies** | All workflows | - | Check package.json |
-| **Environment** | Release, Docs | CI | Check secrets/variables |
+| Issue Type            | Primary Workflow | Secondary Workflows | Solution Reference      |
+| --------------------- | ---------------- | ------------------- | ----------------------- |
+| **TypeScript Errors** | CI (most common) | Release             | Check source code       |
+| **Docker Build**      | All workflows    | -                   | Check Dockerfile        |
+| **Dependencies**      | All workflows    | -                   | Check package.json      |
+| **Environment**       | Release, Docs    | CI                  | Check secrets/variables |
 
 ## Related Documentation
 
@@ -306,5 +306,5 @@ For detailed information about each workflow:
 **Quick Navigation:**
 
 - **Need validation?** → [CI Workflow](./ci-workflow)
-- **Ready to deploy?** → [Release Workflow](./release-workflow)  
+- **Ready to deploy?** → [Release Workflow](./release-workflow)
 - **Update docs?** → [Documentation Workflow](./docs-workflow)

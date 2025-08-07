@@ -32,7 +32,7 @@ The main menu file follows this structure:
           "id": "tequila-silver",
           "name": "Tequila Jose Cuervo Silver 30ml",
           "name_bg": "Текила Jose Cuervo Silver 30мл",
-          "price": 4.00,
+          "price": 4.0,
           "currency": "лв.",
           "icon": "🍸"
         }
@@ -71,8 +71,16 @@ The main menu file follows this structure:
     "category": "Шотове",
     "icon": "🍸",
     "items": [
-      { "name": "Текила Jose Cuervo Silver 30мл", "price": "4.00 лв.", "icon": "🍸" },
-      { "name": "Текила Jose Cuervo Gold 30мл", "price": "4.50 лв.", "icon": "🍸" },
+      {
+        "name": "Текила Jose Cuervo Silver 30мл",
+        "price": "4.00 лв.",
+        "icon": "🍸"
+      },
+      {
+        "name": "Текила Jose Cuervo Gold 30мл",
+        "price": "4.50 лв.",
+        "icon": "🍸"
+      },
       { "name": "Aftershock 30мл", "price": "4.00 лв.", "icon": "🍸" },
       { "name": "Jagermeister 30мл", "price": "4.00 лв.", "icon": "🍸" }
     ]
@@ -97,8 +105,16 @@ The main menu file follows this structure:
     "category": "Shots",
     "icon": "🥃",
     "items": [
-      { "name": "Tequila Jose Cuervo Silver 30ml", "price": "4.00 лв.", "icon": "🥃" },
-      { "name": "Tequila Jose Cuervo Gold 30ml", "price": "4.50 лв.", "icon": "🥃" },
+      {
+        "name": "Tequila Jose Cuervo Silver 30ml",
+        "price": "4.00 лв.",
+        "icon": "🥃"
+      },
+      {
+        "name": "Tequila Jose Cuervo Gold 30ml",
+        "price": "4.50 лв.",
+        "icon": "🥃"
+      },
       { "name": "Aftershock 30ml", "price": "4.00 лв.", "icon": "🥃" },
       { "name": "Jagermeister 30ml", "price": "4.00 лв.", "icon": "🥃" }
     ]
@@ -121,32 +137,32 @@ The main menu file follows this structure:
 
 Here are typical categories for bars and their suggested icons:
 
-| Category (EN) | Category (BG) | Icon | Description |
-|---------------|---------------|------|-------------|
-| Shots | Шотове | 🥃 | Shot drinks |
-| Gin | Джин | 🍸 | Gin-based drinks |
-| Whisky | Уиски | 🥃 | Whisky varieties |
-| Vodka | Водка | 🍸 | Vodka drinks |
-| Rum | Ром | 🍹 | Rum-based drinks |
-| Cocktails | Коктейли | 🍹 | Mixed cocktails |
-| Beer | Бира | 🍺 | Beer selection |
-| Wine | Вино | 🍷 | Wine selection |
-| Non-Alcoholic | Безалкохолно | 🥤 | Soft drinks |
+| Category (EN) | Category (BG) | Icon | Description      |
+| ------------- | ------------- | ---- | ---------------- |
+| Shots         | Шотове        | 🥃   | Shot drinks      |
+| Gin           | Джин          | 🍸   | Gin-based drinks |
+| Whisky        | Уиски         | 🥃   | Whisky varieties |
+| Vodka         | Водка         | 🍸   | Vodka drinks     |
+| Rum           | Ром           | 🍹   | Rum-based drinks |
+| Cocktails     | Коктейли      | 🍹   | Mixed cocktails  |
+| Beer          | Бира          | 🍺   | Beer selection   |
+| Wine          | Вино          | 🍷   | Wine selection   |
+| Non-Alcoholic | Безалкохолно  | 🥤   | Soft drinks      |
 
 ### Restaurant Categories
 
 For restaurants, consider these categories:
 
-| Category (EN) | Category (BG) | Icon | Description |
-|---------------|---------------|------|-------------|
-| Appetizers | Предястия | 🥗 | Starter dishes |
-| Main Courses | Основни ястия | 🍽️ | Main dishes |
-| Desserts | Десерти | 🍰 | Sweet treats |
-| Soups | Супи | 🍲 | Soup varieties |
-| Salads | Салати | 🥗 | Fresh salads |
-| Pizza | Пица | 🍕 | Pizza options |
-| Pasta | Паста | 🍝 | Pasta dishes |
-| Seafood | Морски деликатеси | 🐟 | Fish and seafood |
+| Category (EN) | Category (BG)     | Icon | Description      |
+| ------------- | ----------------- | ---- | ---------------- |
+| Appetizers    | Предястия         | 🥗   | Starter dishes   |
+| Main Courses  | Основни ястия     | 🍽️   | Main dishes      |
+| Desserts      | Десерти           | 🍰   | Sweet treats     |
+| Soups         | Супи              | 🍲   | Soup varieties   |
+| Salads        | Салати            | 🥗   | Fresh salads     |
+| Pizza         | Пица              | 🍕   | Pizza options    |
+| Pasta         | Паста             | 🍝   | Pasta dishes     |
+| Seafood       | Морски деликатеси | 🐟   | Fish and seafood |
 
 ## Item Naming Conventions
 

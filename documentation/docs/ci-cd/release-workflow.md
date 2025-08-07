@@ -36,9 +36,9 @@ The release workflow uses a single-job architecture for containerized deployment
 Runner: ubuntu-latest
 Container: ghcr.io/the-running-dev/build-agent:latest
 Permissions:
-  packages: write    # Push to GitHub Container Registry
-  contents: write    # Create GitHub releases
-  id-token: write    # Verify deployment authenticity
+  packages: write # Push to GitHub Container Registry
+  contents: write # Create GitHub releases
+  id-token: write # Verify deployment authenticity
 ```
 
 ### Build Agent Container
@@ -87,11 +87,11 @@ The release workflow follows these sequential steps across two jobs:
 
 The workflow uses these environment variables for configuration:
 
-| Variable | Purpose | Usage |
-|----------|---------|-------|
-| `RegistryToken` | GitHub operations & registry access | Authentication for releases and registry |
-| `NotificationsWebHookUrl` | Build notification webhook | Send build status updates |
-| `DiscordWebhookUrl` | Runtime Discord notification webhook | Application notification system |
+| Variable                  | Purpose                              | Usage                                    |
+| ------------------------- | ------------------------------------ | ---------------------------------------- |
+| `RegistryToken`           | GitHub operations & registry access  | Authentication for releases and registry |
+| `NotificationsWebHookUrl` | Build notification webhook           | Send build status updates                |
+| `DiscordWebhookUrl`       | Runtime Discord notification webhook | Application notification system          |
 
 ### Secret Management
 
@@ -151,8 +151,8 @@ All sensitive variables are stored as GitHub Secrets:
 The complete release process follows this dual-deployment sequence:
 
 ```text
-Main Branch Push → Version Calculation → Angular Build → 
-Docker Build & Registry Push → GitHub Release → 
+Main Branch Push → Version Calculation → Angular Build →
+Docker Build & Registry Push → GitHub Release →
 Documentation Detection → Notifications
 ```
 
@@ -233,13 +233,13 @@ The versioning follows these rules:
 mode: ContinuousDeployment
 branches:
   main:
-    increment: Minor        # New features on main
+    increment: Minor # New features on main
   feature:
-    increment: Inherit      # Inherit from target branch
+    increment: Inherit # Inherit from target branch
   hotfix:
-    increment: Patch        # Bug fixes only
+    increment: Patch # Bug fixes only
   develop:
-    increment: Minor        # Development features
+    increment: Minor # Development features
 ```
 
 ### Version Calculation Examples
@@ -280,12 +280,12 @@ For emergency releases or scheduled deployments:
 
 ### Common Problems and Solutions
 
-| Issue | Symptoms | Solution |
-|-------|----------|----------|
-| **Version conflicts** | Duplicate version tags, release failures | Check GitVersion configuration and tag conflicts |
-| **Registry push fails** | Authentication errors, permission denied | Verify `REGISTRY_TOKEN` permissions and validity |
-| **Release creation fails** | API errors, missing permissions | Check repository write permissions and token scope |
-| **Docker build fails** | Compilation errors, dependency issues | Review Dockerfile, dependencies, and build logs |
+| Issue                      | Symptoms                                 | Solution                                           |
+| -------------------------- | ---------------------------------------- | -------------------------------------------------- |
+| **Version conflicts**      | Duplicate version tags, release failures | Check GitVersion configuration and tag conflicts   |
+| **Registry push fails**    | Authentication errors, permission denied | Verify `REGISTRY_TOKEN` permissions and validity   |
+| **Release creation fails** | API errors, missing permissions          | Check repository write permissions and token scope |
+| **Docker build fails**     | Compilation errors, dependency issues    | Review Dockerfile, dependencies, and build logs    |
 
 ### Debugging Steps
 
@@ -296,7 +296,6 @@ For emergency releases or scheduled deployments:
    ```
 
 2. **Verify Environment Variables**
-
    - Ensure all required secrets are set
    - Check for typos in secret names
    - Verify token permissions and expiration
@@ -306,7 +305,7 @@ For emergency releases or scheduled deployments:
    ```bash
    # Test build locally
    docker build -t barstrad-ui-test .
-   
+
    # Test GitVersion
    gitversion /showvariable SemVer
    ```

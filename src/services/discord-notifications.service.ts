@@ -3,31 +3,77 @@ import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class DiscordNotificationService {
-    private webhookUrl: string;
-    
-    constructor() {
-        this.webhookUrl = environment.discordWebhookUrl;
+  private webhookUrl: string;
+
+  constructor() {
+    this.webhookUrl = environment.discordWebhookUrl;
+  }
+
+  private lastSentAt = 0;
+
+  async sendMessage(
+    message: string,
+    username?: string,
+    avatarUrl?: string,
+    embeds?: never[]
+  ): Promise<void> {
+    // Input validation and sanitization
+    if (!message || typeof message !== 'string' || message.length > 2000) {
+      throw new Error('Invalid message length');
     }
 
-    async sendMessage(message: string, username?: string, avatarUrl?: string, embeds?: never[]): Promise<void> {
-        try {
-            const payload = {
-                content: message,
-                username: username || 'OrderBot',
-                avatar_url: avatarUrl || '',
-                embeds: embeds || []
-            };
+    // Basic sanitization: remove control characters
+    // Remove non-printable ASCII except newline and carriage return
+    const sanitizedMessage = message
+      .replace(/[^\x20-\x7E\r\n]/g, '')
+      .substring(0, 2000);
+    let sanitizedUsername = username || 'OrderBot';
 
-            await axios.post(this.webhookUrl, payload);
-        } catch (error) {
-            if (axios.isAxiosError(error)) {
-                console.error('Error Sending Message:', error.response?.data || error.message);
-            } else {
-                console.error('Unexpected Error:', error);
-            }
-        }
+    sanitizedUsername = sanitizedUsername
+      .replace(/[^\x20-\x7E]/g, '')
+      .substring(0, 80);
+    let sanitizedAvatarUrl = avatarUrl || '';
+
+    if (sanitizedAvatarUrl && typeof sanitizedAvatarUrl === 'string') {
+      // Only allow http/https URLs
+      if (!/^https?:\/\//.test(sanitizedAvatarUrl)) {
+        sanitizedAvatarUrl = '';
+      }
     }
+
+    // Rate limiting (basic in-memory, per instance)
+    if (!this.lastSentAt) this.lastSentAt = 0;
+
+    const now = Date.now();
+
+    if (now - this.lastSentAt < 1000) {
+      // 1 message per second
+      throw new Error('Rate limit exceeded');
+    }
+
+    this.lastSentAt = now;
+
+    try {
+      const payload = {
+        content: sanitizedMessage,
+        username: sanitizedUsername,
+        avatar_url: sanitizedAvatarUrl,
+        embeds: embeds || []
+      };
+
+      await axios.post(this.webhookUrl, payload);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          'Error Sending Message:',
+          error.response?.data || error.message
+        );
+      } else {
+        console.error('Unexpected Error:', error);
+      }
+    }
+  }
 }

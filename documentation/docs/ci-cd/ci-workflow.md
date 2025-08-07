@@ -44,11 +44,11 @@ Permissions: packages: write
 
 ## Environment Variables
 
-| Variable | Purpose |
-|----------|---------|
-| `RegistryToken` | GitHub operations authentication |
-| `NotificationsWebHookUrl` | Build notification webhook |
-| `DiscordWebhookUrl` | Discord notification webhook |
+| Variable                  | Purpose                          |
+| ------------------------- | -------------------------------- |
+| `RegistryToken`           | GitHub operations authentication |
+| `NotificationsWebHookUrl` | Build notification webhook       |
+| `DiscordWebhookUrl`       | Discord notification webhook     |
 
 ## Key Features
 
@@ -59,7 +59,7 @@ Permissions: packages: write
 
 ## When It Runs
 
-```text
+````text
 Feature Branch Push → CI Workflow
 Pull Request → CI Workflow
 Manual Trigger → CI Workflow
@@ -97,7 +97,7 @@ You can test the CI workflow locally using Act:
 ```powershell
 # Run CI workflow locally
 .\scripts\ci-workflow.ps1
-```
+````
 
 For detailed local testing instructions, see [Local Testing with Act](./local-testing-with-act).
 

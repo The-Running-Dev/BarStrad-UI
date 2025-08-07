@@ -56,12 +56,12 @@ jobs:
         run: node-template-build -appDir 'documentation'
 
       # Step 3: Upload build artifacts for GitHub Pages deployment
-      # The built documentation is in documentation/build directory
+      # The built documentation is in documentation/artifacts directory
       # This step prepares the static files for GitHub Pages deployment
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: documentation/build
+          path: documentation/artifacts
 
   # Deploy Job: Deploys built documentation to GitHub Pages
   # This job depends on successful completion of the Build job

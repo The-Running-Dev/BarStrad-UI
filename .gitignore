@@ -38,4 +38,3 @@ yarn-error.log*
 .secrets
 
 set-environment.ps1
-VERSION.txt

@@ -9,25 +9,25 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 // Function to load translation files dynamically
 export function HttpLoaderFactory(http: HttpClient) {
-    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 @NgModule({
-    declarations: [],
-    imports: [
-        BrowserModule,
-        RouterOutlet,
-        CommonModule,
-        HttpClientModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
-            }
-        }),
-        FontAwesomeModule
-    ],
-    providers: []
+  declarations: [],
+  imports: [
+    BrowserModule,
+    RouterOutlet,
+    CommonModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+    FontAwesomeModule
+  ],
+  providers: []
 })
 export class AppModule {}

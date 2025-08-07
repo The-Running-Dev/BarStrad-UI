@@ -7,13 +7,13 @@
 /* You can override the default Infima variables here. */
 :root {
   /* NUKE-inspired Primary Colors */
-  --ifm-color-primary: #32C832;        /* NUKE Success Green */
-  --ifm-color-primary-dark: #28A428;    /* Darker Green */
-  --ifm-color-primary-darker: #239623;  /* Even Darker */
-  --ifm-color-primary-darkest: #1A7A1A; /* Darkest Green */
-  --ifm-color-primary-light: #45D645;   /* Lighter Green */
-  --ifm-color-primary-lighter: #58E258; /* Even Lighter */
-  --ifm-color-primary-lightest: #7AFF7A; /* Lightest Green */
+  --ifm-color-primary: #32c832; /* NUKE Success Green */
+  --ifm-color-primary-dark: #28a428; /* Darker Green */
+  --ifm-color-primary-darker: #239623; /* Even Darker */
+  --ifm-color-primary-darkest: #1a7a1a; /* Darkest Green */
+  --ifm-color-primary-light: #45d645; /* Lighter Green */
+  --ifm-color-primary-lighter: #58e258; /* Even Lighter */
+  --ifm-color-primary-lightest: #7aff7a; /* Lightest Green */
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
@@ -21,35 +21,39 @@
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
   /* NUKE-inspired Dark Mode */
-  --ifm-color-primary: #45CFFF;        /* NUKE Info Cyan */
-  --ifm-color-primary-dark: #32B8E8;    /* Darker Cyan */
-  --ifm-color-primary-darker: #28A3D1;  /* Even Darker */
-  --ifm-color-primary-darkest: #1E7FA1; /* Darkest Cyan */
-  --ifm-color-primary-light: #58D7FF;   /* Lighter Cyan */
-  --ifm-color-primary-lighter: #7AE3FF; /* Even Lighter */
-  --ifm-color-primary-lightest: #A3F0FF; /* Lightest Cyan */
+  --ifm-color-primary: #45cfff; /* NUKE Info Cyan */
+  --ifm-color-primary-dark: #32b8e8; /* Darker Cyan */
+  --ifm-color-primary-darker: #28a3d1; /* Even Darker */
+  --ifm-color-primary-darkest: #1e7fa1; /* Darkest Cyan */
+  --ifm-color-primary-light: #58d7ff; /* Lighter Cyan */
+  --ifm-color-primary-lighter: #7ae3ff; /* Even Lighter */
+  --ifm-color-primary-lightest: #a3f0ff; /* Lightest Cyan */
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
 /* Reduce font size for markdown-generated headings */
-.markdown h1, .theme-doc-markdown h1 {
+.markdown h1,
+.theme-doc-markdown h1 {
   font-size: 2rem;
 }
-.markdown h2, .theme-doc-markdown h2 {
+.markdown h2,
+.theme-doc-markdown h2 {
   font-size: 1.5rem;
 }
-.markdown h3, .theme-doc-markdown h3 {
+.markdown h3,
+.theme-doc-markdown h3 {
   font-size: 1.2rem;
 }
-.markdown h4, .theme-doc-markdown h4 {
+.markdown h4,
+.theme-doc-markdown h4 {
   font-size: 1.05rem;
 }
 
 /* Logo color inversion for dark theme */
 [data-theme='dark'] .navbar__brand img,
 [data-theme='dark'] .footer__logo img,
-[data-theme='dark'] img[src*="logo.svg"],
-[data-theme='dark'] img[src$="/logo.svg"] {
+[data-theme='dark'] img[src*='logo.svg'],
+[data-theme='dark'] img[src$='/logo.svg'] {
   filter: invert(1) hue-rotate(180deg);
 }
 

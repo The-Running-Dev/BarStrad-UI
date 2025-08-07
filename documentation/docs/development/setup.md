@@ -112,12 +112,12 @@ src/
 
 ### Development Commands
 
-| Command | Purpose |
-|---------|---------|
-| `npm run dev` | Start development server with hot reload |
-| `npm run build` | Build TypeScript to JavaScript |
-| `npm run start` | Start production build |
-| `npm test` | Run tests (when available) |
+| Command         | Purpose                                  |
+| --------------- | ---------------------------------------- |
+| `npm run dev`   | Start development server with hot reload |
+| `npm run build` | Build TypeScript to JavaScript           |
+| `npm run start` | Start production build                   |
+| `npm test`      | Run tests (when available)               |
 
 ### Code Style and Standards
 
@@ -150,23 +150,26 @@ The project uses strict TypeScript configuration:
 ```typescript
 // Good - Explicit types and error handling
 export class Menu {
-    private data: MenuData;
-    private currentLanguage: string;
+  private data: MenuData;
+  private currentLanguage: string;
 
-    constructor() {
-        this.currentLanguage = 'bg';
-        this.data = this.loadMenu(this.currentLanguage);
-    }
+  constructor() {
+    this.currentLanguage = 'bg';
+    this.data = this.loadMenu(this.currentLanguage);
+  }
 
-    private loadMenu(language: string): MenuData {
-        try {
-            const fileContent = fs.readFileSync(`data/menu-items.${language}.json`, "utf-8");
-            return { categories: JSON.parse(fileContent) };
-        } catch (error) {
-            console.error(`Error loading menu: ${error}`);
-            return { categories: [] };
-        }
+  private loadMenu(language: string): MenuData {
+    try {
+      const fileContent = fs.readFileSync(
+        `data/menu-items.${language}.json`,
+        'utf-8'
+      );
+      return { categories: JSON.parse(fileContent) };
+    } catch (error) {
+      console.error(`Error loading menu: ${error}`);
+      return { categories: [] };
     }
+  }
 }
 ```
 
@@ -304,7 +307,7 @@ The bot provides detailed console logging:
 
 ```typescript
 console.log(`✅ Logged in as ${this.client.user?.tag}`);
-console.error("❌ No Bot Token Found in .env File!");
+console.error('❌ No Bot Token Found in .env File!');
 ```
 
 ### VS Code Debugging
@@ -313,20 +316,20 @@ Create `.vscode/launch.json`:
 
 ```json
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Debug BarStrad-UI",
-            "type": "node",
-            "request": "launch",
-            "program": "${workspaceFolder}/src/index.ts",
-            "outFiles": ["${workspaceFolder}/artifacts/**/*.js"],
-            "runtimeArgs": ["-r", "ts-node/register"],
-            "env": {
-                "NODE_ENV": "development"
-            }
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug BarStrad-UI",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/index.ts",
+      "outFiles": ["${workspaceFolder}/artifacts/**/*.js"],
+      "runtimeArgs": ["-r", "ts-node/register"],
+      "env": {
+        "NODE_ENV": "development"
+      }
+    }
+  ]
 }
 ```
 
