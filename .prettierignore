@@ -3,9 +3,7 @@ build/
 dist/
 node_modules/
 artifacts/
-documentation/artifacts/
-documentation/.docusaurus/
-documentation/src/*.json
+documentation/
 
 # Logs
 *.log

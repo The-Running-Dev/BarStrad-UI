@@ -36,3 +36,5 @@ Thumbs.db
 
 # GitHub workflows (avoid formatting these)
 .github/
+
+src/*.json
