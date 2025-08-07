@@ -11,21 +11,21 @@ import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 bootstrapApplication(AppComponent, {
-    providers: [
-        provideHttpClient(),
-        provideRouter(AppRoutes),
-        {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient]
-        },
-        provideAnimations(),
-        ...(TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
-            }
-        }).providers || [])
-    ]
-}).catch(err => console.error(err));
+  providers: [
+    provideHttpClient(),
+    provideRouter(AppRoutes),
+    {
+      provide: TranslateLoader,
+      useFactory: HttpLoaderFactory,
+      deps: [HttpClient]
+    },
+    provideAnimations(),
+    ...(TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }).providers || [])
+  ]
+}).catch((err) => console.error(err));

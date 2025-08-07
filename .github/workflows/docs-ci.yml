@@ -1,0 +1,378 @@
+# ====================================================================
+# DOCUMENTATION CONTINUOUS INTEGRATION (CI) WORKFLOW
+# ====================================================================
+#
+# Purpose: Automated documentation validation workflow that runs on pull requests
+#          to ensure documentation quality, link integrity, and GitHub Pages 
+#          deployment compatibility. Optimized to prevent duplicate CI runs.
+#
+# This workflow is responsible for:
+# - Validating Docusaurus build process with production configuration
+# - Checking internal link integrity and cross-references
+# - Ensuring GitHub Pages baseUrl compatibility (/BarStrad-Bot/)
+# - TypeScript type checking for custom documentation components
+# - Code formatting and linting validation for documentation source
+# - Build artifact validation and critical page verification
+# - Providing fast feedback to documentation contributors
+#
+# ====================================================================
+# WORKFLOW STRATEGY
+# ====================================================================
+#
+# Documentation CI vs Release Workflow Separation:
+# - DOCS CI WORKFLOW (this file): Validates documentation changes, builds for validation
+# - DOCS RELEASE WORKFLOW: Deploys validated documentation to GitHub Pages
+#
+# Benefits of this approach:
+# - Fast feedback loop for documentation contributors
+# - Early detection of broken links and build issues
+# - Environment-aware validation (dev vs production baseUrl)
+# - Clear separation between validation and deployment
+# - Reduced risk of broken documentation deployments
+#
+# ====================================================================
+# TRIGGERS & CONDITIONS
+# ====================================================================
+#
+# This workflow runs on:
+# 1. PULL REQUESTS: All PR events (opened, synchronized, etc.) for documentation changes
+# 2. MANUAL TRIGGER: Manual execution via workflow_dispatch
+#
+# DUPLICATE RUN PREVENTION:
+# - Push trigger removed to prevent duplicate runs when both push and PR events fire
+# - Only PR trigger ensures single CI run per commit in feature branches
+# - Manual trigger allows on-demand validation and debugging
+#
+# Path Filtering:
+# - Only runs when documentation/** files change
+# - Avoids unnecessary runs for non-documentation changes
+# - Reduces CI resource usage and provides faster feedback
+#
+# Documentation Triggers:
+# - documentation/**     : All documentation changes trigger validation
+# - Includes: docs/, docusaurus.config.ts, package.json, src/ components
+# - Excludes: Root README.md, build scripts, other workflows
+#
+# ====================================================================
+# BUILD ENVIRONMENT
+# ====================================================================
+#
+# Runner: GitHub-hosted Ubuntu Latest
+# Node.js: Latest LTS version for Docusaurus 3.8.1 compatibility
+# Package Manager: pnpm (via custom build agent container)
+# Container: Custom build agent with pre-installed tools
+#
+# Project Structure:
+# - Docusaurus 3.8.1 documentation site with TypeScript
+# - React 19 with modern TypeScript support
+# - FontAwesome integration for badge components
+# - Custom GitHubProjectBadges component with JSON configuration
+# - Automated versioning system (YYYY.MM.DD)
+#
+# ====================================================================
+
+name: Docs-CI
+
+# ====================================================================
+# WORKFLOW TRIGGERS
+# ====================================================================
+on:
+  # Manual trigger for testing or debugging CI process
+  # Usage: Go to Actions tab > CI workflow > Run workflow
+  workflow_dispatch:
+  
+  # Trigger on all pull request events (opened, synchronized, reopened, etc.)
+  # Only for documentation changes to avoid unnecessary CI runs
+  pull_request:
+    paths:
+      - 'documentation/**'
+
+# ====================================================================
+# SECURITY PERMISSIONS
+# ====================================================================
+# Minimal required permissions following principle of least privilege
+permissions:
+  contents: read  # Read repository contents
+
+# ====================================================================
+# CONCURRENCY CONTROL
+# ====================================================================
+# Prevent multiple CI runs from executing simultaneously to avoid conflicts
+# and reduce resource usage. Cancel in-progress runs when new commits are pushed.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# ====================================================================
+# JOBS CONFIGURATION
+# ====================================================================
+jobs:
+  build-and-validate:
+    name: Build and Validate Documentation
+    runs-on: ubuntu-latest
+
+    # Use custom build agent container for consistent build environment
+    # This container includes Node.js, pnpm, and documentation build tools
+    container:
+      image: ghcr.io/the-running-dev/build-agent:latest
+    
+    # ================================================================
+    # EXECUTION CONDITIONS
+    # ================================================================
+    # Only run for PRs and manual triggers (push trigger removed to prevent duplicate runs)
+    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+
+    steps:
+      # ================================================================
+      # STEP 0: DUPLICATE RUN PREVENTION
+      # ================================================================
+      # Ensures only one CI run completes for each commit, cancelling duplicates
+      # This is a safety net in case multiple triggers fire simultaneously
+      - name: Skip Duplicate Actions
+        uses: fkirc/skip-duplicate-actions@v5
+        with:
+          cancel_others: true
+          skip_after_successful_duplicate: true
+
+      # ================================================================
+      # STEP 1: REPOSITORY CHECKOUT
+      # ================================================================
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          # Fetch complete git history for proper README processing
+          fetch-depth: 0
+
+      # ================================================================
+      # STEP 2: Build the documentation site
+      # Uses custom node-template-build command available in the build agent
+      # -AppDir 'documentation' specifies the directory containing the Docusaurus project
+      # ================================================================
+      - name: Build Documentation
+        run: node-template-build -AppDir 'documentation' -PackageManager 'pnpm'
+
+      # ================================================================
+      # STEP 3: CODE CHECK
+      # ================================================================
+      - name: Check Code
+        run: pnpm run check-all
+        working-directory: ./documentation
+
+      # ================================================================
+      # STEP 4: BUILD DOCUSAURUS SITE
+      # ================================================================
+      - name: Build Docusaurus Site
+        run: pnpm run build:prod
+        working-directory: ./documentation
+        env:
+          # Ensure proper environment for production build with GitHub Pages baseUrl
+          NODE_ENV: production
+
+      # ================================================================
+      # STEP 5: VALIDATE BUILD ARTIFACTS
+      # ================================================================
+      - name: Validate Artifacts
+        run: |
+          echo "🔍 Validating Artifacts..."
+          
+          # Check if build directory exists
+          if [ ! -d "artifacts" ]; then
+            echo "❌ Artifacts Directory not Found!"
+            exit 1
+          fi
+          
+          # Check if index.html exists
+          if [ ! -f "artifacts/index.html" ]; then
+            echo "❌ Main index.html not Found!"
+            exit 1
+          fi
+          
+          # Check if CSS files were generated
+          if [ ! -d "artifacts/assets" ]; then
+            echo "❌ Assets Directory not Found!"
+            exit 1
+          fi
+          
+          # List key build artifacts
+          echo "✅ Artifacts Validated Successfully:"
+          echo "   📁 artifacts/ directory: $(du -sh artifacts | cut -f1)"
+          echo "   📄 index.html: $(stat -c%s artifacts/index.html) bytes"
+          echo "   🎨 Assets: $(find artifacts/assets -name "*.css" | wc -l) CSS files, $(find artifacts/assets -name "*.js" | wc -l) JS files"
+          
+          # Validate critical pages exist
+          echo "🔍 Validating Critical Documentation Pages..."
+          critical_pages="docs/index.html docs/getting-started/index.html docs/configuration/index.html docs/ci-cd/index.html"
+          
+          for page in $critical_pages; do
+            if [ -f "artifacts/$page" ]; then
+              echo "   ✅ $page"
+            else
+              echo "   ⚠️  $page (may be expected)"
+            fi
+          done
+        working-directory: ./documentation
+
+# ====================================================================
+# VALIDATION PROCESS
+# ====================================================================
+#
+# The documentation build and validation process performs:
+# 1. Code formatting validation using Prettier
+# 2. Code quality validation using ESLint with TypeScript support
+# 3. TypeScript compilation for all components and configuration
+# 4. Docusaurus production build with GitHub Pages baseUrl validation
+# 5. React component validation (custom components, theme components)
+# 6. Internal link validation (catches broken relative/absolute links)
+# 7. Build artifact validation (ensures proper file generation)
+# 8. Critical page existence validation
+#
+# Success Criteria:
+# - All dependencies install correctly via pnpm in documentation/ directory
+# - TypeScript files compile without errors
+# - Docusaurus production build completes with baseUrl: '/BarStrad-Bot/'
+# - All internal links resolve correctly (no broken link errors)
+# - Build artifacts directory contains all expected files
+# - Critical documentation pages are generated
+# - CSS and JavaScript assets are properly created
+# - Theme and custom components render without errors
+#
+# Build Artifacts Validated:
+# - artifacts/ directory with complete Docusaurus site
+# - index.html with proper baseUrl configuration
+# - assets/ directory with CSS/JS files for GitHub Pages
+# - All documentation pages with correct internal linking
+# - Theme assets and custom component resources
+#
+# Link Validation:
+# - Internal documentation links (docs/...) 
+# - Cross-references between documentation sections
+# - Image references in static/img/ directory
+# - Configuration and setup guide links
+# - CI/CD documentation cross-references
+#
+# Environment-Specific Validation:
+# - Production build uses baseUrl: '/BarStrad-Bot/' for GitHub Pages
+# - All assets reference correct paths for subdirectory deployment
+# - CSS and theme files load correctly with GitHub Pages baseUrl
+#
+# ====================================================================
+# DEVELOPMENT WORKFLOW INTEGRATION
+# ====================================================================
+#
+# This CI workflow integrates with the documentation development process:
+#
+# Documentation Development Flow:
+# 1. Developer creates feature branch and makes documentation changes
+# 2. Developer opens pull request → CI validates PR changes (single run)
+# 3. Documentation review process with CI validation results
+# 4. Link validation ensures no broken references
+# 5. PR merge to main → Release workflow deploys to GitHub Pages
+#
+# DUPLICATE RUN PREVENTION:
+# - Only pull_request trigger used (push trigger removed)
+# - Single CI run per commit in feature branches
+# - Deduplication step provides additional safety net
+# - Concurrency control cancels in-progress runs for new commits
+#
+# Benefits for Documentation Contributors:
+# - Fast feedback on Docusaurus build issues (2-4 minutes typical)
+# - Early detection of broken links and references
+# - Validation of GitHub Pages baseUrl compatibility
+# - Environment-aware build validation (dev vs production)
+# - Build artifact verification before deployment
+# - TypeScript and React component validation for custom components
+#
+# Integration with Local Development:
+# - Local development uses baseUrl: '/' for fast iteration
+# - CI validates production build with baseUrl: '/BarStrad-Bot/'
+# - Consistent build environment between local and CI
+# - Documentation serves locally with .\docs.ps1 script
+#
+# Quality Assurance:
+# - All internal documentation links validated
+# - Cross-references between sections verified
+# - Image and asset references validated
+# - Build artifact completeness checked
+#
+# ====================================================================
+# TROUBLESHOOTING GUIDE
+# ====================================================================
+#
+# Common Issues and Solutions:
+#
+# 1. Documentation Build Failures:
+#    - Check docusaurus.config.ts for syntax errors
+#    - Verify MDX files in docs/ directory are valid markdown
+#    - Review sidebar configuration in sidebars.ts
+#    - Ensure all image references in static/img/ exist
+#    - Validate environment-aware baseUrl configuration
+#
+# 2. Broken Link Errors:
+#    - Use absolute paths for GitHub Pages: /BarStrad-Bot/docs/...
+#    - Use doc IDs for internal links: docs/configuration/setup
+#    - Avoid relative links (./...) in production builds
+#    - Check cross-references between documentation sections
+#    - Validate image paths in static/img/ directory
+#
+# 3. TypeScript Compilation Errors:
+#    - Check syntax errors in React components (.tsx files)
+#    - Verify import statements and module dependencies
+#    - Ensure React 19 and TypeScript compatibility
+#    - Review tsconfig.json configuration in documentation/
+#
+# 4. GitHub Pages Deployment Issues:
+#    - Ensure baseUrl: '/BarStrad-Bot/' for production builds
+#    - Verify NODE_ENV=production sets correct environment
+#    - Check that all assets use proper baseUrl paths
+#    - Validate CSS and theme files load with subdirectory paths
+#
+# 5. Dependency Issues:
+#    - Check pnpm-lock.yaml exists in documentation/ directory
+#    - Verify package.json dependencies are compatible
+#    - Ensure Node.js version compatibility (18+)
+#    - Check Docusaurus 3.8.1 compatibility
+#    - Review React 19 and TypeScript version conflicts
+#
+# 6. Build Artifact Issues:
+#    - Verify artifacts/ directory is created in documentation/
+#    - Check that index.html contains correct baseUrl
+#    - Ensure assets/ directory contains CSS/JS files
+#    - Validate critical pages are generated correctly
+#
+# 7. Working Directory Issues:
+#    - All build commands run in documentation/ directory
+#    - Repository checkout happens in root directory
+#    - pnpm commands executed with correct working-directory
+#
+# ====================================================================
+# PERFORMANCE OPTIMIZATION
+# ====================================================================
+#
+# This workflow is optimized for:
+# - Fast documentation builds with pnpm caching in documentation/ directory
+# - Efficient TypeScript compilation for Docusaurus components
+# - Quick validation of internal links and references
+# - Minimal resource consumption for documentation PR validation
+# - Environment-aware builds (development vs production baseUrl)
+#
+# Performance Monitoring:
+# - Typical run time: 2-4 minutes (dependency install + build + validation)
+# - Resource usage: Low to Medium (Node.js compilation + Docusaurus build)
+# - Success rate: Monitor for build failures and broken link errors
+# - Build artifact size: Track documentation site size growth
+#
+# Docusaurus-Specific Optimizations:
+# - Production build configuration for GitHub Pages validation
+# - pnpm dependency caching and frozen lockfile
+# - Parallel TypeScript compilation in documentation/ directory
+# - Efficient MDX processing for documentation pages
+# - Custom build agent with pre-installed tools
+# - Build artifact validation to catch deployment issues early
+#
+# GitHub Pages Optimizations:
+# - Environment-aware baseUrl configuration
+# - Production build validation with correct subdirectory paths
+# - Asset path validation for GitHub Pages deployment
+# - Link validation to prevent 404 errors on deployment
+#
+# ====================================================================

@@ -1,10 +1,23 @@
 // src/app/app.component.ts
 
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
-import { DiscordNotificationService, LanguageService, MenuService, StorageService, TableService, ThemeService } from '../../services';
+import {
+  DiscordNotificationService,
+  LanguageService,
+  MenuService,
+  StorageService,
+  TableService,
+  ThemeService
+} from '../../services';
 import { MenuCategory, MenuItem } from '../../models';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 //import { FaIconComponent } from '@fortawesome/angular-fontawesome';
@@ -34,26 +47,28 @@ export class AppComponent implements OnInit, AfterViewInit {
   faCog = faCog;
 
   constructor(
-      private menuService: MenuService,
-      private translate: TranslateService,
-      protected tableService: TableService,
-      private storageService: StorageService,
-      private languageService: LanguageService,
-      private discordNotificationService: DiscordNotificationService,
-      private snackBar: MatSnackBar,
-      private themeService: ThemeService
-  ) {
-  }
+    private menuService: MenuService,
+    private translate: TranslateService,
+    protected tableService: TableService,
+    private storageService: StorageService,
+    private languageService: LanguageService,
+    private discordNotificationService: DiscordNotificationService,
+    private snackBar: MatSnackBar,
+    private themeService: ThemeService
+  ) {}
 
   ngOnInit() {
-    this.languageService.currentLanguage$.subscribe(language => {
+    this.languageService.currentLanguage$.subscribe((language) => {
       this.currentLanguage = language;
 
-      this.translate.use(language).subscribe(() => {
-        console.log(`Setting Language: ${language}`);
-      }, err => {
-        console.error(err);
-      });
+      this.translate.use(language).subscribe(
+        () => {
+          console.log(`Setting Language: ${language}`);
+        },
+        (err) => {
+          console.error(err);
+        }
+      );
 
       this.loadMenuCategories();
       this.loadMenuItems();
@@ -70,31 +85,39 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   loadMenuCategories() {
-    this.menuService.getCategories(this.currentLanguage).subscribe((data: MenuCategory[]) => {
-      this.menuCategories = data;
-    });
+    this.menuService
+      .getCategories(this.currentLanguage)
+      .subscribe((data: MenuCategory[]) => {
+        this.menuCategories = data;
+      });
   }
 
   loadMenuItems() {
-    this.menuService.getItems(this.currentLanguage).subscribe((data: MenuItem[]) => {
-      this.menuItems = data;
-      this.filteredMenuItems = data;
+    this.menuService
+      .getItems(this.currentLanguage)
+      .subscribe((data: MenuItem[]) => {
+        this.menuItems = data;
+        this.filteredMenuItems = data;
 
-      const storedCategory = this.storageService.getItem('selectedCategory');
+        const storedCategory = this.storageService.getItem('selectedCategory');
 
-      if (storedCategory) {
-        this.filterByCategory(storedCategory);
-      }
-    });
+        if (storedCategory) {
+          this.filterByCategory(storedCategory);
+        }
+      });
   }
 
   filterMenu(event: Event) {
     const query = (event.target as HTMLInputElement).value.toLowerCase();
 
-    this.filteredMenuItems = this.menuItems.map(category => ({
-      ...category,
-      items: category.items.filter(item => item.name.toLowerCase().includes(query))
-    })).filter(category => category.items.length > 0);
+    this.filteredMenuItems = this.menuItems
+      .map((category) => ({
+        ...category,
+        items: category.items.filter((item) =>
+          item.name.toLowerCase().includes(query)
+        )
+      }))
+      .filter((category) => category.items.length > 0);
   }
 
   resetSearch(input: HTMLInputElement) {
@@ -111,10 +134,15 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.storageService.setItem('selectedCategory', category);
     }
 
-    if (this.filteredMenuItems.length > 0 && this.filteredMenuItems[0].category === category) {
+    if (
+      this.filteredMenuItems.length > 0 &&
+      this.filteredMenuItems[0].category === category
+    ) {
       this.showAllCategories();
     } else {
-      this.filteredMenuItems = this.menuItems.filter(cat => cat.category === category);
+      this.filteredMenuItems = this.menuItems.filter(
+        (cat) => cat.category === category
+      );
       this.updateSelectedCategory(category);
     }
   }
@@ -128,7 +156,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   updateSelectedCategory(category: string) {
     const categoryLinks = document.querySelectorAll('.category-header a');
 
-    categoryLinks.forEach(link => {
+    categoryLinks.forEach((link) => {
       if (link.textContent && link.textContent.trim() === category) {
         link.classList.add('selected');
       } else {
@@ -148,7 +176,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     button.disabled = true;
     button.innerHTML = '<i class="fas fa-shopping-cart"></i> Order Placed!';
 
-    const message = `Table #${this.tableService.tableNumber}: ${item.name} (${item.price})`
+    const message = `Table #${this.tableService.tableNumber}: ${item.name} (${item.price})`;
 
     from(this.discordNotificationService.sendMessage(message)).subscribe({
       next: () => {

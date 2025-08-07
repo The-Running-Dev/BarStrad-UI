@@ -1,62 +1,131 @@
 <div class="header-controls">
-    <div class="language-toggle">
-        <img src="assets/flags/4x3/us.svg" alt="English" (click)="setLanguage('en')" tabindex="0" (keydown.enter)="setLanguage('en')" [class.active]="currentLanguage === 'en'">
-        <img src="assets/flags/4x3/bg.svg" alt="Bulgarian" (click)="setLanguage('bg')" tabindex="1" (keydown.enter)="setLanguage('bg')" [class.active]="currentLanguage === 'bg'">
-    </div>
-    <div class="theme-toggle">
-        <label class="switch">
-            <input type="checkbox" (change)="toggleTheme($event)" [checked]="themeChecked" tabindex="2">
-            <span class="slider round"></span>
-            <span class="icon light-theme-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                    <path d="M12 4a8 8 0 0 0 0 16 8 8 0 0 0 0-16zm0 14a6 6 0 0 1 0-12 6 6 0 0 1 0 12zm0-14V2a1 1 0 0 0-2 0v2a1 1 0 0 0 2 0zm0 16v2a1 1 0 0 0 2 0v-2a1 1 0 0 0-2 0zm10-8h-2a1 1 0 0 0 0 2h2a1 1 0 0 0 0-2zm-16 0H2a1 1 0 0 0 0 2h2a1 1 0 0 0 0-2zm12.07-7.07l-1.41 1.41a1 1 0 0 0 1.41 1.41l1.41-1.41a1 1 0 0 0-1.41-1.41zm-10.14 0a1 1 0 0 0-1.41 1.41l1.41 1.41a1 1 0 0 0 1.41-1.41L5.93 2.93zm10.14 14.14a1 1 0 0 0-1.41 1.41l1.41 1.41a1 1 0 0 0 1.41-1.41l-1.41-1.41zm-10.14 0l-1.41 1.41a1 1 0 0 0 1.41 1.41l1.41-1.41a1 1 0 0 0-1.41-1.41z"/>
-                </svg>
-            </span>
-            <span class="icon dark-theme-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                <path d="M21.75 15.5a9.75 9.75 0 0 1-12.5-12.5 9.75 9.75 0 1 0 12.5 12.5z"/>
-            </svg>
-            </span>
-        </label>
-        <!--
+  <div class="language-toggle">
+    <img
+      src="assets/flags/4x3/us.svg"
+      alt="English"
+      (click)="setLanguage('en')"
+      tabindex="0"
+      (keydown.enter)="setLanguage('en')"
+      [class.active]="currentLanguage === 'en'"
+    />
+    <img
+      src="assets/flags/4x3/bg.svg"
+      alt="Bulgarian"
+      (click)="setLanguage('bg')"
+      tabindex="1"
+      (keydown.enter)="setLanguage('bg')"
+      [class.active]="currentLanguage === 'bg'"
+    />
+  </div>
+  <div class="theme-toggle">
+    <label class="switch">
+      <input
+        type="checkbox"
+        (change)="toggleTheme($event)"
+        [checked]="themeChecked"
+        tabindex="2"
+      />
+      <span class="slider round"></span>
+      <span class="icon light-theme-icon">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+        >
+          <path
+            d="M12 4a8 8 0 0 0 0 16 8 8 0 0 0 0-16zm0 14a6 6 0 0 1 0-12 6 6 0 0 1 0 12zm0-14V2a1 1 0 0 0-2 0v2a1 1 0 0 0 2 0zm0 16v2a1 1 0 0 0 2 0v-2a1 1 0 0 0-2 0zm10-8h-2a1 1 0 0 0 0 2h2a1 1 0 0 0 0-2zm-16 0H2a1 1 0 0 0 0 2h2a1 1 0 0 0 0-2zm12.07-7.07l-1.41 1.41a1 1 0 0 0 1.41 1.41l1.41-1.41a1 1 0 0 0-1.41-1.41zm-10.14 0a1 1 0 0 0-1.41 1.41l1.41 1.41a1 1 0 0 0 1.41-1.41L5.93 2.93zm10.14 14.14a1 1 0 0 0-1.41 1.41l1.41 1.41a1 1 0 0 0 1.41-1.41l-1.41-1.41zm-10.14 0l-1.41 1.41a1 1 0 0 0 1.41 1.41l1.41-1.41a1 1 0 0 0-1.41-1.41z"
+          />
+        </svg>
+      </span>
+      <span class="icon dark-theme-icon">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+        >
+          <path
+            d="M21.75 15.5a9.75 9.75 0 0 1-12.5-12.5 9.75 9.75 0 1 0 12.5 12.5z"
+          />
+        </svg>
+      </span>
+    </label>
+    <!--
         <a [routerLink]="['/settings']">
             <fa-icon [icon]="faCog"></fa-icon>
         </a>
         -->
-    </div>
+  </div>
 </div>
 <main class="main">
-    <div class="menu">
-        <h1>{{ 'Menu' | translate }} <span *ngIf="tableService.tableNumber"> ({{ 'Table' | translate }} #{{ tableService.tableNumber }})</span></h1>
-        <div class="search-container">
-            <input type="text" placeholder="{{ 'Search' | translate }}..." (input)="filterMenu($event)" #searchInput tabindex="3" />
-            <button (click)="resetSearch(searchInput)" (keydown.enter)="resetSearch(searchInput)" tabindex="4">{{ 'Reset' | translate }}</button>
-        </div>
-        <div class="category-header">
-            <a (click)="showAllCategories()" (keydown.enter)="showAllCategories()" tabindex="5">{{ 'All' | translate }}</a>
-            <a *ngFor="let category of menuCategories" (click)="filterByCategory(category.category)" (keydown.enter)="filterByCategory(category.category)" tabindex="6">
-                <i class="fas {{ category.icon }}"></i> {{ category.category | translate }}
-            </a>
-        </div>
-        <div *ngFor="let item of filteredMenuItems">
-            <h2><i class="fas {{ item.icon }}"></i> {{ item.category | translate }}</h2>
-            <ul class="menu">
-                <li *ngFor="let i of item.items" tabindex="7">
-                    <i class="fas {{ i.icon }}"></i> {{ i.name }}
-                    <!--
+  <div class="menu">
+    <h1>
+      {{ 'Menu' | translate }}
+      <span *ngIf="tableService.tableNumber">
+        ({{ 'Table' | translate }} #{{ tableService.tableNumber }})</span
+      >
+    </h1>
+    <div class="search-container">
+      <input
+        type="text"
+        placeholder="{{ 'Search' | translate }}..."
+        (input)="filterMenu($event)"
+        #searchInput
+        tabindex="3"
+      />
+      <button
+        (click)="resetSearch(searchInput)"
+        (keydown.enter)="resetSearch(searchInput)"
+        tabindex="4"
+      >
+        {{ 'Reset' | translate }}
+      </button>
+    </div>
+    <div class="category-header">
+      <a
+        (click)="showAllCategories()"
+        (keydown.enter)="showAllCategories()"
+        tabindex="5"
+        >{{ 'All' | translate }}</a
+      >
+      <a
+        *ngFor="let category of menuCategories"
+        (click)="filterByCategory(category.category)"
+        (keydown.enter)="filterByCategory(category.category)"
+        tabindex="6"
+      >
+        <i class="fas {{ category.icon }}"></i>
+        {{ category.category | translate }}
+      </a>
+    </div>
+    <div *ngFor="let item of filteredMenuItems">
+      <h2>
+        <i class="fas {{ item.icon }}"></i> {{ item.category | translate }}
+      </h2>
+      <ul class="menu">
+        <li *ngFor="let i of item.items" tabindex="7">
+          <i class="fas {{ i.icon }}"></i> {{ i.name }}
+          <!--
                     <button class="order-button" (click)="orderItem(i)">
                         {{ i.price }}
                     </button>
                     -->
-                    <button class="order-button" *ngIf="tableService.tableNumber" (click)="orderItem(i, $event)">
-                        <i class="fas fa-shopping-cart"></i> {{ 'Order' | translate }}
-                    </button>
-                    <span class="price">{{ i.price }}</span>
-                    <span class="description" *ngIf="i.description">{{ i.description }}</span>
-                </li>
-            </ul>
-        </div>
+          <button
+            class="order-button"
+            *ngIf="tableService.tableNumber"
+            (click)="orderItem(i, $event)"
+          >
+            <i class="fas fa-shopping-cart"></i> {{ 'Order' | translate }}
+          </button>
+          <span class="price">{{ i.price }}</span>
+          <span class="description" *ngIf="i.description">{{
+            i.description
+          }}</span>
+        </li>
+      </ul>
     </div>
+  </div>
 </main>
 <!--
 <router-outlet></router-outlet>

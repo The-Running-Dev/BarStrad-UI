@@ -52,9 +52,16 @@
 # - Manual workflow dispatch
 # - Push to any branch except main
 #
+# IMPORTANT: Dual Execution Behavior
+# When you push to a feature branch that has an open PR, this workflow
+# will run TWICE - once for the push event and once for the PR event.
+# This is intentional and provides:
+# - Push event: Immediate feedback for developers
+# - PR event: Validation context for code reviewers
+#
 # This ensures:
 # - All pull requests are validated before merge
-# - Feature branches are validated on push
+# - Feature branches get immediate validation on push
 # - Main branch changes trigger Release workflow instead
 #
 # ====================================================================
@@ -63,18 +70,11 @@
 #
 # Runner: GitHub-hosted Ubuntu Latest
 # Container: Custom build agent with pre-installed tools:
-# - Node.js runtime and pnpm package manager
-# - Angular CLI and TypeScript compiler
+# - Node.js runtime and package managers
+# - TypeScript compiler and build tools
 # - Docker for containerized builds
 # - GitVersion for version calculation
-# - Custom build scripts (node-in-docker-build) optimized for this project
-#
-# Project Structure:
-# - Angular 19.1.0 application with TypeScript
-# - pnpm package manager (configured in package.json)
-# - ESLint for code quality validation
-# - Docker containerization with nginx serving
-# - PowerShell build script (build.ps1) for local development
+# - Custom build scripts optimized for this project
 #
 # ====================================================================
 # SECURITY & PERMISSIONS
@@ -87,11 +87,8 @@
 # Required Secrets:
 # - REGISTRY_TOKEN            : GitHub token (for potential future registry operations)
 # - NOTIFICATIONS_WEBHOOK_URL : Webhook for build status notifications
+# - DISCORD_BOT_TOKEN         : Discord bot token (for build environment consistency)
 # - DISCORD_WEBHOOK_URL       : Discord webhook for CI notifications
-#
-# Note: The custom build container (ghcr.io/the-running-dev/docker-build-agent:latest)
-# handles the actual Angular build process through the node-in-docker-build command.
-# This ensures consistent builds between CI and Release workflows.
 #
 # ====================================================================
 
@@ -107,16 +104,6 @@ on:
   
   # Trigger on all pull request events (opened, synchronized, reopened, etc.)
   pull_request:
-    # Skip CI if only documentation or workflow files changed
-    paths-ignore:
-      - 'documentation/**'  # Documentation changes don't need code validation
-      - '.github/**'        # Workflow changes don't need code validation
-  
-  # Trigger on pushes to any branch except main
-  push:
-    branches:
-      - '**'      # Match all branches
-      - '!main'   # Exclude main branch (handled by Release workflow)
     # Skip CI if only documentation or workflow files changed
     paths-ignore:
       - 'documentation/**'  # Documentation changes don't need code validation
@@ -150,6 +137,12 @@ jobs:
     if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref != 'refs/heads/main')
 
     steps:
+      - uses: fkirc/skip-duplicate-actions@v5
+        with:
+          cancel_others: true
+          concurrent_skips: same_content_newer
+          skip_after_successful_duplicate: true
+
       # ================================================================
       # STEP 1: REPOSITORY CHECKOUT
       # ================================================================
@@ -176,39 +169,29 @@ jobs:
           
           # GitHub authentication token
           # Used for: Registry authentication (if needed), API access
-          RegistryToken: ${{ secrets.REGISTRY_TOKEN }}
+          GitHubRepositoryToken: ${{ secrets.REGISTRY_TOKEN }}
           
           # Webhook URL for CI build notifications
           # Used for: Sending status updates to external monitoring systems
-          NotificationsWebHookUrl: ${{ secrets.NOTIFICATIONS_WEBHOOK_URL }}
-          
-          # Discord webhook URL for CI notifications
-          # Used for: Sending CI status updates to Discord channels
-          DiscordWebhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          BuildNotificationsWebHookUrl: ${{ secrets.NOTIFICATIONS_WEBHOOK_URL }}
 
 # ====================================================================
 # VALIDATION PROCESS
 # ====================================================================
 #
 # The dry-run build performs the following validations:
-# 1. Angular project dependency installation (pnpm-based)
-# 2. TypeScript compilation and Angular CLI build process
-# 3. ESLint code quality and style validation
-# 4. Docker image build validation (nginx + Angular artifacts)
-# 5. Build script execution verification (node-in-docker-build)
+# 1. TypeScript compilation check
+# 2. Dependency resolution and installation
+# 3. Docker image build validation (without pushing)
+# 4. Code quality and syntax verification
+# 5. Build script execution verification
 #
 # Success Criteria:
-# - All Angular dependencies resolve correctly via pnpm
-# - TypeScript files compile without errors
-# - ESLint passes with project configuration
-# - Angular production build completes successfully
-# - Docker build creates valid nginx-served container
-# - No critical errors or warnings in build output
-#
-# Build Artifacts Validated:
-# - artifacts/browser/ directory with compiled Angular app
-# - Docker image with nginx serving static files
-# - Production-optimized JavaScript and CSS bundles
+# - All TypeScript files compile without errors
+# - All dependencies resolve correctly
+# - Docker build completes successfully
+# - Build scripts execute without failures
+# - No critical errors or warnings
 #
 # ====================================================================
 # DEVELOPMENT WORKFLOW INTEGRATION
@@ -218,15 +201,19 @@ jobs:
 #
 # Feature Development Flow:
 # 1. Developer creates feature branch → CI validates on push
-# 2. Developer opens pull request → CI validates PR changes
+# 2. Developer opens pull request → CI validates PR changes (runs again)
 # 3. Code review process with CI validation results
 # 4. PR merge to main → Release workflow takes over
 #
+# Note: Steps 1 and 2 will result in CI running twice if you push to a 
+# branch with an open PR. This provides both immediate feedback and PR context.
+#
 # Benefits for Developers:
-# - Fast feedback on code changes (3-5 minutes typical for Angular builds)
-# - Early detection of TypeScript and Angular build issues
-# - Consistent validation environment matching production
-# - Reduced risk of breaking main branch with build failures
+# - Fast feedback on code changes (2-3 minutes typical)
+# - Early detection of build issues
+# - Consistent validation environment
+# - Reduced risk of breaking main branch
+# - Both push-time and PR-time validation
 #
 # ====================================================================
 # TROUBLESHOOTING GUIDE
@@ -234,63 +221,46 @@ jobs:
 #
 # Common Issues and Solutions:
 #
-# 1. Angular/TypeScript Compilation Errors:
-#    - Check syntax errors in .ts files and Angular components
-#    - Verify import statements and Angular module dependencies
-#    - Ensure Angular 19.1.0 compatibility with dependencies
-#    - Review tsconfig.json and angular.json configurations
+# 1. TypeScript Compilation Errors:
+#    - Check syntax errors in modified files
+#    - Verify import statements and dependencies
+#    - Ensure TypeScript configuration is correct
 #
-# 2. pnpm/Dependency Issues:
-#    - Check pnpm-lock.yaml exists and is not corrupted
-#    - Verify package.json dependencies are compatible
-#    - Review Angular Material and FontAwesome version conflicts
-#    - Ensure Node.js version compatibility (20+)
+# 2. Docker Build Failures:
+#    - Review Dockerfile for syntax errors
+#    - Check base image availability
+#    - Verify build context and file paths
 #
-# 3. ESLint/Code Quality Failures:
-#    - Review eslint.config.js configuration
-#    - Check for Angular-specific linting rule violations
-#    - Verify component lifecycle methods are properly implemented
-#    - Ensure proper TypeScript typing in services and components
+# 3. Dependency Issues:
+#    - Check package.json for correct dependencies
+#    - Verify npm/yarn lockfile consistency
+#    - Review dependency version conflicts
 #
-# 4. Docker Build Failures:
-#    - Ensure artifacts/browser directory exists after Angular build
-#    - Review Dockerfile nginx configuration
-#    - Check base nginx:alpine image availability
-#    - Verify Angular build output matches Docker COPY paths
-#
-# 5. Container Environment Issues:
-#    - Verify docker-build-agent container availability
+# 4. Container Environment Issues:
+#    - Verify build agent container availability
 #    - Check container registry access permissions
-#    - Review node-in-docker-build script execution
-#    - Monitor container resource limits and build timeouts
+#    - Review container resource limits
 #
-# 6. Path Filter Issues:
-#    - Review paths-ignore configuration for documentation/**
-#    - Check if changes affect ignored paths only (.github/**)
-#    - Verify branch and path conditions match project structure
-#
+# 5. Path Filter Issues:
+#    - Review paths-ignore configuration
+#    - Check if changes affect ignored paths only
+#    - Verify branch and path conditions
 #
 # ====================================================================
 # PERFORMANCE OPTIMIZATION
 # ====================================================================
 #
 # This workflow is optimized for:
-# - Fast Angular builds using dry-run validation
-# - Resource efficiency (no artifact publishing to registries)
-# - Parallel execution capability within build steps
-# - Minimal resource consumption for PR validation
+# - Fast execution (dry-run builds)
+# - Resource efficiency (no artifact publishing)
+# - Parallel execution capability
+# - Minimal resource consumption
 #
 # Performance Monitoring:
-# - Typical run time: 3-5 minutes (Angular builds + Docker validation)
-# - Resource usage: Medium (Angular compilation, Docker build)
-# - Success rate: Monitor for build failures across branches
-# - Queue time: Monitor GitHub runner availability
-#
-# Angular-Specific Optimizations:
-# - Production build configuration for validation
-# - pnpm dependency caching within container
-# - Docker layer caching for base nginx image
-# - Parallel TypeScript compilation where possible
+# - Typical run time: 2-3 minutes
+# - Resource usage: Low (validation only)
+# - Success rate: Monitor for build failures
+# - Queue time: Monitor for runner availability
 #
 # ====================================================================
 # MAINTENANCE & MONITORING
@@ -298,22 +268,16 @@ jobs:
 #
 # Regular Maintenance Tasks:
 # - Update GitHub Actions versions (actions/checkout@v4)
-# - Monitor docker-build-agent container updates
-# - Review and optimize Angular build configuration
-# - Update path exclusion patterns as project structure evolves
-# - Review success/failure rates and optimize build times
+# - Monitor build agent container updates
+# - Review and optimize build scripts
+# - Update path exclusion patterns as needed
+# - Review success/failure rates and optimize accordingly
 #
 # Monitoring Points:
-# - Build success rate per branch/PR for Angular builds
-# - Average build duration trends (target: <5 minutes)
-# - Error patterns in TypeScript compilation and Angular builds
+# - Build success rate per branch/PR
+# - Average build duration trends
+# - Error patterns and common failures
 # - Resource usage and efficiency metrics
-# - Developer feedback on CI speed and Angular-specific error reporting
-#
-# Angular Project Maintenance:
-# - Monitor Angular CLI and dependency updates
-# - Review ESLint configuration for new Angular features
-# - Validate Docker nginx configuration for Angular routing
-# - Check Angular Material and third-party library compatibility
+# - Developer feedback on CI speed and reliability
 #
 # ====================================================================
