@@ -332,12 +332,12 @@ environment:
 
 ### Common Build Issues
 
-| Issue                       | Symptoms                                 | Solution                                       |
-| --------------------------- | ---------------------------------------- | ---------------------------------------------- |
-| **Container Access Denied** | Pull errors, authentication failures     | Verify `packages: write` permission            |
-| **Build Command Not Found** | `node-template-build: not found` | The build agent replaced it with `build node-template`; update the workflow |
-| **Out of Memory**           | Build process killed, memory errors      | Optimize build configuration                   |
-| **Missing Dependencies**    | Module not found errors                  | Check package.json and dependency installation |
+| Issue                       | Symptoms                             | Solution                                                                    |
+| --------------------------- | ------------------------------------ | --------------------------------------------------------------------------- |
+| **Container Access Denied** | Pull errors, authentication failures | Verify `packages: write` permission                                         |
+| **Build Command Not Found** | `node-template-build: not found`     | The build agent replaced it with `build node-template`; update the workflow |
+| **Out of Memory**           | Build process killed, memory errors  | Optimize build configuration                                                |
+| **Missing Dependencies**    | Module not found errors              | Check package.json and dependency installation                              |
 
 ### Common Deployment Issues
 

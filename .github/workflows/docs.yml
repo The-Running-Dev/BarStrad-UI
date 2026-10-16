@@ -52,8 +52,17 @@ jobs:
       # Step 2: Build the documentation site
       # Uses the build agent's `build node-template` command
       # -appDir 'documentation' specifies the directory containing the Docusaurus project
+      # The documentation was written against this Docusaurus-Template
+      # commit; the template's main has since become a different site and
+      # no longer builds these docs. Clone it at that commit and hand the
+      # build agent the local copy (a `#branch` suffix selects the branch).
+      - name: Pin Documentation Template
+        run: |
+          git clone --quiet https://github.com/The-Running-Dev/Docusaurus-Template.git /tmp/docs-template
+          git -C /tmp/docs-template checkout --quiet -b pinned 71e366c7120b5892072fe060c18e828f4eec9698
+
       - name: Build Documentation
-        run: build node-template -appDir 'documentation'
+        run: build node-template -AppDir 'documentation' -PackageManager 'pnpm' -NodeTemplateRepositoryUrl 'file:///tmp/docs-template#pinned'
 
       # Step 3: Upload build artifacts for GitHub Pages deployment
       # The built documentation is in documentation/artifacts directory

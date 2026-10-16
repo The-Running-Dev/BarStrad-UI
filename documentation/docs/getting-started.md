@@ -65,7 +65,7 @@ For development and customization:
    ```
 
    The Discord webhook URL does not go in the environment files: everything there ships to the
-   browser. See *Discord Webhook Setup* below.
+   browser. See _Discord Webhook Setup_ below.
 
 4. **Start the development server**
 

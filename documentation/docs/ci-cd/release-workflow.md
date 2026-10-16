@@ -87,10 +87,10 @@ The release workflow follows these sequential steps across two jobs:
 
 The workflow uses these environment variables for configuration:
 
-| Variable                  | Purpose                              | Usage                                    |
-| ------------------------- | ------------------------------------ | ---------------------------------------- |
-| `RegistryToken`           | GitHub operations & registry access  | Authentication for releases and registry |
-| `NotificationsWebHookUrl` | Build notification webhook           | Send build status updates                |
+| Variable                  | Purpose                             | Usage                                    |
+| ------------------------- | ----------------------------------- | ---------------------------------------- |
+| `RegistryToken`           | GitHub operations & registry access | Authentication for releases and registry |
+| `NotificationsWebHookUrl` | Build notification webhook          | Send build status updates                |
 
 ### Secret Management
 
