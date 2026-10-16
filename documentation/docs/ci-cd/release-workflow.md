@@ -65,7 +65,7 @@ The release workflow follows these sequential steps across two jobs:
 
 #### 2. **Build & Publish**
 
-- Executes production build using `node-in-docker-build`
+- Executes production build using `build node-in-docker`
 - Includes flag `--create-github-release true`
 - Handles Angular compilation and optimization
 - Handles Docker image creation and registry publishing
@@ -87,11 +87,10 @@ The release workflow follows these sequential steps across two jobs:
 
 The workflow uses these environment variables for configuration:
 
-| Variable                  | Purpose                              | Usage                                    |
-| ------------------------- | ------------------------------------ | ---------------------------------------- |
-| `RegistryToken`           | GitHub operations & registry access  | Authentication for releases and registry |
-| `NotificationsWebHookUrl` | Build notification webhook           | Send build status updates                |
-| `DiscordWebhookUrl`       | Runtime Discord notification webhook | Application notification system          |
+| Variable                  | Purpose                             | Usage                                    |
+| ------------------------- | ----------------------------------- | ---------------------------------------- |
+| `RegistryToken`           | GitHub operations & registry access | Authentication for releases and registry |
+| `NotificationsWebHookUrl` | Build notification webhook          | Send build status updates                |
 
 ### Secret Management
 

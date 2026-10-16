@@ -43,9 +43,9 @@ This document provides a comprehensive side-by-side comparison of all three GitH
 
 | Workflow      | Command                                             | Purpose                  |
 | ------------- | --------------------------------------------------- | ------------------------ |
-| CI            | `node-in-docker-build --dry-run true`               | Validation only          |
-| Release       | `node-in-docker-build --create-github-release true` | Production deployment    |
-| Documentation | `node-template-build -appDir 'documentation'`       | Documentation site build |
+| CI            | `build node-in-docker --dry-run true`               | Validation only          |
+| Release       | `build node-in-docker --create-github-release true` | Production deployment    |
+| Documentation | `build node-template -appDir 'documentation'`       | Documentation site build |
 
 ### Job Architecture
 
@@ -72,7 +72,7 @@ This document provides a comprehensive side-by-side comparison of all three GitH
 | **Container Image** | `build-agent:latest`   | `build-agent:latest`   | `build-agent:latest`         |
 | **Runner**          | `ubuntu-latest`        | `ubuntu-latest`        | `ubuntu-latest`              |
 | **Build Tools**     | Node.js, Docker        | Node.js, Docker        | Node.js, documentation tools |
-| **Custom Commands** | `node-in-docker-build` | `node-in-docker-build` | `node-template-build`        |
+| **Custom Commands** | `build node-in-docker` | `build node-in-docker` | `build node-template`        |
 
 ### Environment Variables
 
@@ -82,7 +82,6 @@ All workflows use these common environment variables:
 | ------------------------------ | ------ | ------- | ----------------- |
 | `GitHubRepositoryToken`        | ✅ Yes | ✅ Yes  | ✅ Yes (implicit) |
 | `BuildNotificationsWebHookUrl` | ✅ Yes | ✅ Yes  | ❌ No             |
-| `DiscordWebhookUrl`            | ✅ Yes | ✅ Yes  | ❌ No             |
 
 ### Path Exclusions
 

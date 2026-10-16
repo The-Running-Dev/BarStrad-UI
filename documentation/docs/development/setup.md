@@ -56,9 +56,6 @@ yarn install
 Create a `.env` file in the root directory:
 
 ```env
-# Discord Bot Configuration
-DiscordWebhookUrl=your_development_webhook_url_here
-
 # Environment Settings
 NODE_ENV=development
 DEBUG=true

@@ -82,10 +82,13 @@ BarStrad-Bot comes with sensible defaults:
 
 ```typescript
 export const environment = {
-  production: process.env['NODE_ENV'] === 'production',
-  discordWebhookUrl: process.env.DiscordWebhookUrl || ''
+  production: process.env['NODE_ENV'] === 'production'
 };
 ```
+
+The Discord webhook for order notifications is not part of the environment: everything here ships
+to the browser. It is the container's runtime variable `DiscordWebhookUrl`, which nginx uses to
+forward `POST /api/notify` (`nginx/templates/default.conf.template`).
 
 ### Default Menu Structure
 

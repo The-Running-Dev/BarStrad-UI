@@ -40,7 +40,7 @@ Permissions: packages: write
 ## Steps
 
 1. **Checkout** - Full git history (`fetch-depth: 0`)
-2. **Build** - Dry-run validation (`node-in-docker-build --dry-run true`)
+2. **Build** - Dry-run validation (`build node-in-docker --dry-run true`)
 
 ## Environment Variables
 
@@ -48,7 +48,6 @@ Permissions: packages: write
 | ------------------------- | -------------------------------- |
 | `RegistryToken`           | GitHub operations authentication |
 | `NotificationsWebHookUrl` | Build notification webhook       |
-| `DiscordWebhookUrl`       | Discord notification webhook     |
 
 ## Key Features
 

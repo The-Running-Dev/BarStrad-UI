@@ -43,7 +43,7 @@
     
     The script will:
     - Mount the current directory to the Docker container (Phase 1 only)
-    - Use the Build Agent's node-template-build command (Phase 1 only)
+    - Use the Build Agent's `build node-template` command (Phase 1 only)
     - Skip container-based package installation (handled by host pnpm)
     - Start a new PowerShell window with the development server
     
@@ -61,7 +61,7 @@ $appDir = 'documentation'
 # Phase 1: Template Build using Docker Build Agent (Optional)
 # This phase prepares the documentation environment by:
 # - Mounting the workspace to the container
-# - Using node-template-build to copy templates and setup files
+# - Using `build node-template` to copy templates and setup files
 # - Configuring for pnpm package manager
 # - Skipping container-based installation (we'll install on host)
 # - Setting development mode (not production)
@@ -73,7 +73,7 @@ if (-not $SkipTemplateSetup) {
         --rm `
         -v ./:/workspace `
         -it ghcr.io/the-running-dev/build-agent:latest `
-        node-template-build `
+        build node-template `
             -appDir $appDir `
             -packageManager 'pnpm' `
             -skipInstall `

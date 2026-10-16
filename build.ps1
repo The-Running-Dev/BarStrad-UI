@@ -100,7 +100,7 @@ Invoke-SafeCommand {
         -e DOCKER_HOST=tcp://host.docker.internal:2375 `
         -v ${PWD}:/workspace `
         -w /workspace `
-        ghcr.io/the-running-dev/build-agent:latest node-in-docker-build
+        ghcr.io/the-running-dev/build-agent:latest build node-in-docker
     } `
     -Description "📦 Containerized Angular Build & Docker Image Creation"  `
     -CommandOnFailure { 

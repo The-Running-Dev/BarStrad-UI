@@ -69,7 +69,7 @@ Both workflows use a custom build agent container:
 - **Node.js Runtime**: Latest LTS version with npm/yarn
 - **Docker Support**: Docker-in-Docker for container builds
 - **GitVersion**: Automatic semantic versioning
-- **Build Scripts**: Custom `node-in-docker-build` command
+- **Build Scripts**: Custom `build node-in-docker` command
 - **Security**: Isolated execution environment
 
 ## Versioning Strategy
@@ -109,7 +109,6 @@ All workflows require these GitHub Secrets:
 | `REGISTRY_TOKEN`            | GitHub Container Registry access | CI, Release |
 | `NOTIFICATIONS_WEBHOOK_URL` | Build status notifications       | CI, Release |
 | `DISCORD_BOT_TOKEN`         | Discord bot configuration        | CI, Release |
-| `DISCORD_WEBHOOK_URL`       | Discord notifications            | CI, Release |
 
 ### Permission Model
 
@@ -263,7 +262,6 @@ The CI/CD workflows require the following secrets to be configured in GitHub:
 | `REGISTRY_TOKEN`            | GitHub token with package write permissions | Release     |
 | `NOTIFICATIONS_WEBHOOK_URL` | Webhook URL for build notifications         | CI, Release |
 | `DISCORD_BOT_TOKEN`         | Discord bot authentication token            | CI, Release |
-| `DISCORD_WEBHOOK_URL`       | Discord webhook URL for order notifications | CI, Release |
 
 ### Secret Configuration
 

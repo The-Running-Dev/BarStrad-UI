@@ -113,7 +113,7 @@ Once the server is running, open your browser and navigate to `http://localhost:
 The project uses environment-specific configuration. To set up your environment:
 
 1. Configure your environment variables in `src/environments/environment.ts`
-2. Set up Discord webhook URL for notifications (optional)
+2. Set up Discord webhook URL for notifications (optional): set `DiscordWebhookUrl` on the container (`docker run -e DiscordWebhookUrl=...`). It is never put in `src/environments`, because everything there ships to the browser
 3. Run the pre-start script to initialize environment:
 
    ```bash
@@ -251,7 +251,7 @@ The application is fully responsive and includes:
 
 ### Environment Variables
 
-- `DiscordWebhookUrl`: Discord webhook URL for notifications
+- `DiscordWebhookUrl`: Discord webhook URL for order notifications. A **runtime** variable of the container, not a build variable: nginx forwards `POST /api/notify` to it (`nginx/templates/default.conf.template`), so the URL never reaches the browser
 - `NODE_ENV`: Environment mode (development/production)
 
 ### Menu Data

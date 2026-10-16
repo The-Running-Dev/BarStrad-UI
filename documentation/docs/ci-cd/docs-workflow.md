@@ -91,7 +91,7 @@ The custom build agent container includes:
 - Node.js runtime environment
 - npm/yarn package managers
 - Documentation build tools
-- Custom `node-template-build` command
+- Custom `build node-template` command
 
 ### Build Process Steps
 
@@ -115,11 +115,11 @@ The custom build agent container includes:
 
 ```yaml
 - name: Build Documentation
-  run: node-template-build -appDir 'documentation'
+  run: build node-template -appDir 'documentation'
 ```
 
 **Purpose:** Compiles Docusaurus project into static website
-**Build Command:** `node-template-build`
+**Build Command:** `build node-template`
 
 - Custom command available in build agent container
 - `-appDir 'documentation'` specifies source directory
@@ -214,7 +214,7 @@ environment:
 
 ### Custom Commands
 
-**`node-template-build`**
+**`build node-template`**
 
 - Specialized documentation build command
 - Handles Docusaurus configuration
@@ -332,12 +332,12 @@ environment:
 
 ### Common Build Issues
 
-| Issue                       | Symptoms                                 | Solution                                       |
-| --------------------------- | ---------------------------------------- | ---------------------------------------------- |
-| **Container Access Denied** | Pull errors, authentication failures     | Verify `packages: write` permission            |
-| **Build Command Not Found** | `node-template-build: command not found` | Check build agent container version            |
-| **Out of Memory**           | Build process killed, memory errors      | Optimize build configuration                   |
-| **Missing Dependencies**    | Module not found errors                  | Check package.json and dependency installation |
+| Issue                       | Symptoms                             | Solution                                                                    |
+| --------------------------- | ------------------------------------ | --------------------------------------------------------------------------- |
+| **Container Access Denied** | Pull errors, authentication failures | Verify `packages: write` permission                                         |
+| **Build Command Not Found** | `node-template-build: not found`     | The build agent replaced it with `build node-template`; update the workflow |
+| **Out of Memory**           | Build process killed, memory errors  | Optimize build configuration                                                |
+| **Missing Dependencies**    | Module not found errors              | Check package.json and dependency installation                              |
 
 ### Common Deployment Issues
 

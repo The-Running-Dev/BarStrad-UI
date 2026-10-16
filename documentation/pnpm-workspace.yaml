@@ -1,0 +1,8 @@
+# The documentation is its own pnpm project: without this file pnpm would
+# treat the repository root as the workspace and install the Angular app.
+# pnpm 11+ fails an install whose build scripts are not allowed
+# (ERR_PNPM_IGNORED_BUILDS); Docusaurus needs these.
+allowBuilds:
+  core-js: true
+  core-js-pure: true
+  esbuild: true

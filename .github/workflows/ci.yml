@@ -161,7 +161,7 @@ jobs:
         # Dry-run build that validates code without publishing artifacts
         # This provides fast feedback while conserving resources
         # --dry-run flag ensures no artifacts are published or deployed
-        run: node-in-docker-build --dry-run true
+        run: build node-in-docker --dry-run true
         env:
           # ============================================================
           # ENVIRONMENT VARIABLES & SECRETS
@@ -174,9 +174,6 @@ jobs:
           # Webhook URL for CI build notifications
           # Used for: Sending status updates to external monitoring systems
           NotificationsWebHookUrl: ${{ secrets.NOTIFICATIONS_WEBHOOK_URL }}
-
-          # Discord webhook URL for order notifications
-          DiscordWebhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
 
 # ====================================================================
 # VALIDATION PROCESS
