@@ -91,7 +91,6 @@ The workflow uses these environment variables for configuration:
 | ------------------------- | ------------------------------------ | ---------------------------------------- |
 | `RegistryToken`           | GitHub operations & registry access  | Authentication for releases and registry |
 | `NotificationsWebHookUrl` | Build notification webhook           | Send build status updates                |
-| `DiscordWebhookUrl`       | Runtime Discord notification webhook | Application notification system          |
 
 ### Secret Management
 

@@ -161,9 +161,6 @@ jobs:
           # Used for: Sending status updates to external systems
           NotificationsWebHookUrl: ${{ secrets.NOTIFICATIONS_WEBHOOK_URL }}
 
-          # Discord webhook URL for order notifications
-          DiscordWebhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
-
       - name: Check for Documentation Changes
         id: docs-changed
         run: |

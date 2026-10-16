@@ -48,7 +48,6 @@ Permissions: packages: write
 | ------------------------- | -------------------------------- |
 | `RegistryToken`           | GitHub operations authentication |
 | `NotificationsWebHookUrl` | Build notification webhook       |
-| `DiscordWebhookUrl`       | Discord notification webhook     |
 
 ## Key Features
 

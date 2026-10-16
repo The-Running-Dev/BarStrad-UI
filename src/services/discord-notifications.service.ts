@@ -1,16 +1,13 @@
 import axios from 'axios';
 import { Injectable } from '@angular/core';
-import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DiscordNotificationService {
-  private webhookUrl: string;
-
-  constructor() {
-    this.webhookUrl = environment.discordWebhookUrl;
-  }
+  // Same-origin relay: nginx forwards the post to the Discord webhook, whose
+  // URL stays on the server (nginx/templates/default.conf.template).
+  private readonly notifyUrl = 'api/notify';
 
   private lastSentAt = 0;
 
@@ -64,7 +61,7 @@ export class DiscordNotificationService {
         embeds: embeds || []
       };
 
-      await axios.post(this.webhookUrl, payload);
+      await axios.post(this.notifyUrl, payload);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error(

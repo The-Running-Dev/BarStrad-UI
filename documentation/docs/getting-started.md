@@ -64,14 +64,8 @@ For development and customization:
    cp src/environments/environment.prod.ts.example src/environments/environment.prod.ts
    ```
 
-   Update the environment files with your Discord webhook URLs:
-
-   ```typescript
-   export const environment = {
-     production: false,
-     discordWebhookUrl: 'your_discord_webhook_url_here'
-   };
-   ```
+   The Discord webhook URL does not go in the environment files: everything there ships to the
+   browser. See *Discord Webhook Setup* below.
 
 4. **Start the development server**
 
@@ -156,14 +150,15 @@ For order notifications:
 
 1. Create a Discord webhook in your server
 2. Copy the webhook URL
-3. Update your environment configuration:
+3. Pass it to the container at runtime:
 
-```typescript
-export const environment = {
-  production: false,
-  discordWebhookUrl: 'https://discord.com/api/webhooks/your-webhook-url'
-};
+```bash
+docker run -p 8080:80 -e DiscordWebhookUrl='https://discord.com/api/webhooks/<id>/<token>' ghcr.io/the-running-dev/barstrad-ui:latest
 ```
+
+The browser posts orders to `/api/notify` on the same server, and nginx forwards them to the
+webhook. The webhook URL is a credential (anyone holding it can post to the channel), so it is
+never part of the build or the browser bundle. Without it, `/api/notify` answers `503`.
 
 ## Verification
 

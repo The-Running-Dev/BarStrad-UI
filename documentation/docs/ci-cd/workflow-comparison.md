@@ -82,7 +82,6 @@ All workflows use these common environment variables:
 | ------------------------------ | ------ | ------- | ----------------- |
 | `GitHubRepositoryToken`        | ✅ Yes | ✅ Yes  | ✅ Yes (implicit) |
 | `BuildNotificationsWebHookUrl` | ✅ Yes | ✅ Yes  | ❌ No             |
-| `DiscordWebhookUrl`            | ✅ Yes | ✅ Yes  | ❌ No             |
 
 ### Path Exclusions
 

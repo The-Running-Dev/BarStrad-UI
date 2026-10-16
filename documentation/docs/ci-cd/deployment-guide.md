@@ -196,11 +196,12 @@ The Angular application runs in a containerized environment with:
 
 ### Environment Variables
 
-Optional for production deployment:
+Optional for production deployment, set on the running container:
 
 ```env
-# Discord Integration (optional)
-DISCORD_WEBHOOK_URL=your_webhook_url
+# Discord order notifications (optional). Read by nginx at container start
+# and used to forward POST /api/notify; never baked into the image or bundle.
+DiscordWebhookUrl=https://discord.com/api/webhooks/<id>/<token>
 
 # Application Settings
 NODE_ENV=production
