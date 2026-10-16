@@ -1,0 +1,8 @@
+# pnpm 11+ fails an install whose dependencies' build scripts are not
+# allowed (ERR_PNPM_IGNORED_BUILDS). These four ship native binaries the
+# Angular build needs, so their scripts run.
+allowBuilds:
+  "@parcel/watcher": true
+  esbuild: true
+  lmdb: true
+  msgpackr-extract: true
