@@ -146,11 +146,11 @@ jobs:
 
       # ================================================================
       # STEP 2: Build the documentation site
-      # Uses custom node-template-build command available in the build agent
+      # Uses the build agent's `build node-template` command
       # -AppDir 'documentation' specifies the directory containing the Docusaurus project
       # ================================================================
       - name: Build Documentation
-        run: node-template-build -AppDir 'documentation' -PackageManager 'pnpm'
+        run: build node-template -AppDir 'documentation' -PackageManager 'pnpm'
 
       # ================================================================
       # STEP 3: CODE CHECK

@@ -50,10 +50,10 @@ jobs:
           fetch-depth: 0
 
       # Step 2: Build the documentation site
-      # Uses custom node-template-build command available in the build agent
+      # Uses the build agent's `build node-template` command
       # -appDir 'documentation' specifies the directory containing the Docusaurus project
       - name: Build Documentation
-        run: node-template-build -appDir 'documentation'
+        run: build node-template -appDir 'documentation'
 
       # Step 3: Upload build artifacts for GitHub Pages deployment
       # The built documentation is in documentation/artifacts directory

@@ -69,7 +69,7 @@ Both workflows use a custom build agent container:
 - **Node.js Runtime**: Latest LTS version with npm/yarn
 - **Docker Support**: Docker-in-Docker for container builds
 - **GitVersion**: Automatic semantic versioning
-- **Build Scripts**: Custom `node-in-docker-build` command
+- **Build Scripts**: Custom `build node-in-docker` command
 - **Security**: Isolated execution environment
 
 ## Versioning Strategy

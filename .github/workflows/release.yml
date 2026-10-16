@@ -122,7 +122,7 @@ jobs:
     # - Node.js runtime and npm/yarn
     # - Docker-in-Docker capabilities
     # - GitVersion for semantic versioning
-    # - Custom build scripts (node-in-docker-build)
+    # - Custom build scripts (build node-in-docker)
     container:
       image: ghcr.io/the-running-dev/build-agent:latest
 
@@ -147,7 +147,7 @@ jobs:
         # 3. Image publishing to GitHub Container Registry
         # 4. GitHub release creation with auto-generated notes
         # 5. Notification dispatch via configured webhooks
-        run: node-in-docker-build --create-github-release true
+        run: build node-in-docker --create-github-release true
         env:
           # ============================================================
           # ENVIRONMENT VARIABLES & SECRETS

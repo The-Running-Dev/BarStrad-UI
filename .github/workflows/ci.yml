@@ -161,7 +161,7 @@ jobs:
         # Dry-run build that validates code without publishing artifacts
         # This provides fast feedback while conserving resources
         # --dry-run flag ensures no artifacts are published or deployed
-        run: node-in-docker-build --dry-run true
+        run: build node-in-docker --dry-run true
         env:
           # ============================================================
           # ENVIRONMENT VARIABLES & SECRETS

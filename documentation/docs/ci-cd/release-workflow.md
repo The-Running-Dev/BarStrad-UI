@@ -65,7 +65,7 @@ The release workflow follows these sequential steps across two jobs:
 
 #### 2. **Build & Publish**
 
-- Executes production build using `node-in-docker-build`
+- Executes production build using `build node-in-docker`
 - Includes flag `--create-github-release true`
 - Handles Angular compilation and optimization
 - Handles Docker image creation and registry publishing
